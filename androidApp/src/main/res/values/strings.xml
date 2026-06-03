@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">Rakuyomi Bridge</string>
+
+    <!-- Layout -->
+    <string name="title_rakuyomi_bridge">Rakuyomi Bridge</string>
+    <string name="port_format">http://127.0.0.1:%d</string>
+    <string name="start_server">Start Server</string>
+    <string name="stop_server">Stop Server</string>
+    <string name="status_stopped">Stopped</string>
+    <string name="status_running">Running</string>
+    <string name="status_starting">Starting…</string>
+    <string name="status_unknown">Status unknown</string>
+    <string name="info_text">The KOReader plugin will connect automatically when the server is running.</string>
+
+    <!-- Permission dialogs -->
+    <string name="storage_title">Storage access required</string>
+    <string name="storage_message">Rakuyomi Bridge needs access to manage all files on your device so it can read / write manga data in the shared KOReader folder at /storage/emulated/0/koreader/rakuyomi.\n\nYou will be taken to Settings. Tap the toggle to grant \"Allow access to manage all files\", then press Back.</string>
+    <string name="storage_go_to_settings">Go to Settings</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="notification_title">Notification permission</string>
+    <string name="notification_message">Rakuyomi Bridge runs a foreground service to keep the server alive. Android requires notification permission so the service can stay active.\n\nTap Allow when prompted.</string>
+    <string name="ok">OK</string>
+
+    <string name="notification_denied">Notification permission denied.</string>
+
+    <!-- Server Service -->
+    <string name="channel_name">Rakuyomi Server</string>
+    <string name="channel_description">Notification for the rakuyomi background server</string>
+    <string name="notification_text_starting">Starting server…</string>
+    <string name="notification_text_running">Server running on port %d</string>
+</resources>
