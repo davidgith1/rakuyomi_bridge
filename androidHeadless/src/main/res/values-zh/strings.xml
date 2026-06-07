@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rakuyomi Bridge（无界面版）</string>
+
+    <string name="start_server">启动服务器</string>
+    <string name="stop_server">停止服务器</string>
+    <string name="status_stopped">已停止</string>
+    <string name="status_running">正在运行</string>
+    <string name="status_starting">正在启动…</string>
+    <string name="status_unknown">状态未知</string>
+    <string name="port_format">http://127.0.0.1:%d</string>
+    <string name="version_format">版本 %s</string>
+
+    <string name="grant_storage">授予所有文件访问权限</string>
+    <string name="grant_notification">授予通知权限</string>
+    <string name="storage_settings_unavailable">无法在本设备上打开存储设置。</string>
+    <string name="notification_denied">已拒绝通知权限。</string>
+
+    <string name="info_text">点击“启动”以运行 rakuyomi 服务器。通知会保持后台运行，使 KOReader 可以通过上方的 URL 连接到此桥接服务。</string>
+
+    <string name="channel_name">Rakuyomi 服务器</string>
+    <string name="channel_description">rakuyomi 后台服务器的通知</string>
+    <string name="notification_text_starting">正在启动服务器…</string>
+    <string name="notification_text_running">服务器正在端口 %d 上运行</string>
+</resources>

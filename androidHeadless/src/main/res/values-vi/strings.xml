@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rakuyomi Bridge (Headless)</string>
+
+    <string name="start_server">Bắt đầu máy chủ</string>
+    <string name="stop_server">Dừng máy chủ</string>
+    <string name="status_stopped">Đã dừng</string>
+    <string name="status_running">Đang chạy</string>
+    <string name="status_starting">Đang bắt đầu…</string>
+    <string name="status_unknown">Trạng thái không xác định</string>
+    <string name="port_format">http://127.0.0.1:%d</string>
+    <string name="version_format">Phiên bản %s</string>
+
+    <string name="grant_storage">Cấp quyền truy cập toàn bộ tệp</string>
+    <string name="grant_notification">Cấp quyền thông báo</string>
+    <string name="storage_settings_unavailable">Không thể mở cài đặt bộ nhớ trên thiết bị này.</string>
+    <string name="notification_denied">Đã từ chối quyền thông báo.</string>
+
+    <string name="info_text">Nhấn Bắt đầu để khởi chạy máy chủ rakuyomi. Thông báo sẽ giữ máy chủ chạy nền để KOReader có thể truy cập qua URL phía trên.</string>
+
+    <string name="channel_name">Máy chủ Rakuyomi</string>
+    <string name="channel_description">Thông báo cho máy chủ nền rakuyomi</string>
+    <string name="notification_text_starting">Đang khởi động máy chủ…</string>
+    <string name="notification_text_running">Máy chủ đang chạy trên cổng %d</string>
+</resources>

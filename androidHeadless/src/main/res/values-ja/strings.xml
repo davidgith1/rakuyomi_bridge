@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rakuyomi Bridge (Headless)</string>
+
+    <string name="start_server">サーバーを開始</string>
+    <string name="stop_server">サーバーを停止</string>
+    <string name="status_stopped">停止中</string>
+    <string name="status_running">実行中</string>
+    <string name="status_starting">開始中…</string>
+    <string name="status_unknown">ステータス不明</string>
+    <string name="port_format">http://127.0.0.1:%d</string>
+    <string name="version_format">バージョン %s</string>
+
+    <string name="grant_storage">すべてのファイルへのアクセスを許可</string>
+    <string name="grant_notification">通知の許可</string>
+    <string name="storage_settings_unavailable">この端末ではストレージ設定を開けません。</string>
+    <string name="notification_denied">通知の許可が拒否されました。</string>
+
+    <string name="info_text">「開始」をタップしてrakuyomiサーバーを起動してください。通知によってバックグラウンドで動作し続けるため、KOReaderは上記のURLでブリッジに接続できます。</string>
+
+    <string name="channel_name">Rakuyomiサーバー</string>
+    <string name="channel_description">rakuyomiバックグラウンドサーバーの通知</string>
+    <string name="notification_text_starting">サーバーを起動中…</string>
+    <string name="notification_text_running">サーバーがポート %d で実行中</string>
+</resources>

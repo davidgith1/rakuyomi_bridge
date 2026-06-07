@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rakuyomi Bridge (Headless)</string>
+
+    <!-- Server control -->
+    <string name="start_server">Start Server</string>
+    <string name="stop_server">Stop Server</string>
+    <string name="status_stopped">Stopped</string>
+    <string name="status_running">Running</string>
+    <string name="status_starting">Starting…</string>
+    <string name="status_unknown">Status unknown</string>
+    <string name="port_format">http://127.0.0.1:%d</string>
+    <string name="version_format">Version %s</string>
+
+    <!-- Permission buttons (shown only on Android 30+/33+) -->
+    <string name="grant_storage">Grant All Files Access</string>
+    <string name="grant_notification">Grant Notification Permission</string>
+    <string name="storage_settings_unavailable">Cannot open storage settings on this device.</string>
+    <string name="notification_denied">Notification permission denied.</string>
+
+    <!-- Info text shown below the buttons -->
+    <string name="info_text">Tap Start to launch the rakuyomi server. The notification keeps it alive in the background, so KOReader can reach the bridge at the URL above.</string>
+
+    <!-- Server Service -->
+    <string name="channel_name">Rakuyomi Server</string>
+    <string name="channel_description">Notification for the rakuyomi background server</string>
+    <string name="notification_text_starting">Starting server…</string>
+    <string name="notification_text_running">Server running on port %d</string>
+</resources>

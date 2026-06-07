@@ -6,6 +6,16 @@ Kotlin Multiplatform + Android companion app for the RakuYomi KOReader plugin.
 Loads `librakuyomi_server.so` (Rust cdylib) via JNI and runs the rakuyomi HTTP
 server as a foreground service, exposing it at `http://127.0.0.1:8787`.
 
+Two Android modules ship from this repo:
+
+- **`androidApp/`** — full Compose UI (Material 3, Hilt, DataStore, navigation,
+  built-in update flow, browser, logs). minSdk 21.
+- **`headless/`** — minimal Android-only app with a single programmatic
+  `LinearLayout` screen (no Compose, no Hilt, no DataStore). minSdk 18
+  (Android 4.3). Different `applicationId` so it can be installed alongside
+  the Compose app; deep links are namespaced
+  (`rakuyomi_bridge_headless://start|stop`).
+
 Includes a CLI test harness (`bridge/cli/`) for Linux that starts/stops the
 server binary and runs API tests.
 
@@ -16,13 +26,13 @@ bridge/
 ├── build.gradle.kts                    # Root: plugin declarations (apply false)
 ├── settings.gradle.kts                 # Multi-module config
 ├── gradle/libs.versions.toml           # Version catalog
-├── shared/                             # KMP shared module (android + jvm)
+├── shared/                             # KMP shared module (android + jvm, minSdk 18)
 │   ├── build.gradle.kts
 │   └── src/
 │       ├── commonMain/.../             # ServerConfig, BridgeClient, BridgeResponse
 │       ├── androidMain/.../            # JniBridge, RakuyomiServer
 │       └── jvmMain/.../                # Platform.actual (HttpURLConnection)
-├── androidApp/                         # Android application (Compose + Service)
+├── androidApp/                         # Compose + Hilt + DataStore (minSdk 21)
 │   ├── build.gradle.kts
 │   ├── proguard-rules.pro
 │   └── src/main/
@@ -35,7 +45,21 @@ bridge/
 │       └── res/
 │           ├── values/strings.xml
 │           └── xml/network_security_config.xml
-└── cli/                               # JVM CLI test harness (Linux)
+├── androidHeadless/                           # Minimal Android app (minSdk 18, no Compose)
+│   ├── build.gradle.kts
+│   └── src/main/
+│       ├── AndroidManifest.xml
+│       ├── kotlin/.../headless/
+│       │   ├── HeadlessApp.kt
+│       │   ├── service/{ServerService,NetworkBridgeWorker,ServiceLauncherActivity}.kt
+│       │   ├── receiver/BootReceiver.kt
+│       │   ├── settings/SettingsStore.kt
+│       │   └── ui/MainActivity.kt      # LinearLayout built in code
+│       └── res/
+│           ├── values/strings.xml + vi/ja/zh
+│           ├── mipmap*/ic_launcher*.xml
+│           └── xml/network_security_config.xml
+└── cli/                                # JVM CLI test harness (Linux)
     ├── build.gradle.kts
     └── src/main/kotlin/.../BridgeCLI.kt
 ```
@@ -43,11 +67,15 @@ bridge/
 ## Build System
 
 - AGP 8.4.0, Kotlin 1.9.22, Gradle 8.6
-- JVM target: 1.8, minSdk 21 (androidApp), targetSdk 34
+- JVM target: 1.8, minSdk 18 (shared/headless) or 21 (androidApp), targetSdk 34
 - KMP targets: `androidTarget` (shared) + `jvm` (shared + cli)
-- UI: Jetpack Compose (Material3) via BOM 2024.02.00
+- UI: Jetpack Compose (Material3) via BOM 2024.02.00 in `:androidApp`;
+  programmatic `LinearLayout` in `:androidHeadless` to keep the APK small and
+  compatible with API 18
 - CLI: `application` plugin, `java.net.HttpURLConnection` (no extra HTTP lib)
-- The `.so` is built separately via `scripts/build-android.sh`
+- The `.so` is built separately via `scripts/build-android.sh`. The headless
+  module re-uses `androidApp/src/main/jniLibs/` via `sourceSets["main"].jniLibs`
+  to avoid duplicating the 50MB native payload.
 
 ## KMP Targets
 
@@ -88,8 +116,12 @@ Linux:    HttpURLConnection  (standalone server binary, systemd)
 
 ## Important Rules
 
-- **Compose only** — no XML layouts
-- Use `ComponentActivity` + `setContent` for Android
+- **Compose only** (in `:androidApp`) — no XML layouts there. The `:androidHeadless`
+  module is exempt: it uses programmatic `LinearLayout` because Compose
+  requires API 21+ and the headless build must run on API 18.
+- Use `ComponentActivity` + `setContent` for the Compose app; the headless
+  app uses plain `Activity` to avoid pulling in `androidx.activity` ≥ 1.7
+  (which requires API 19+).
 - Use `expect`/`actual` for platform-specific code in shared module
 - `jvmMain` must not depend on Android APIs
 - `androidMain` must not depend on JVM APIs (java.net, etc.)
@@ -102,3 +134,6 @@ Linux:    HttpURLConnection  (standalone server binary, systemd)
 - Server host: `127.0.0.1`
 - Data directory: `/storage/emulated/0/koreader/rakuyomi` (Android) or `~/.local/share/rakuyomi` (Linux)
 - Health check: `GET /health-check`
+- Deep link schemes:
+  - Compose app: `rakuyomi_bridge://start` and `...://stop`
+  - Headless app: `rakuyomi_bridge_headless://start` and `...://stop`

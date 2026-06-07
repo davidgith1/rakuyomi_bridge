@@ -25,6 +25,14 @@
           {
             "path": "androidApp/build/outputs/apk/release/*-signed.apk",
             "label": "Android APK"
+          },
+          {
+            "path": "androidHeadless/build/outputs/bundle/release/*-signed.aab",
+            "label": "Android Headless App Bundle"
+          },
+          {
+            "path": "androidHeadless/build/outputs/apk/release/*-signed.apk",
+            "label": "Android Headless APK"
           }
         ]
       }
