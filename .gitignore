@@ -11,3 +11,7 @@ gradle/wrapper/gradle-wrapper.properties
 
 # Build outputs
 local.properties
+
+/*.log
+/.kotlin
+/androidApp/src/main/jniLibs

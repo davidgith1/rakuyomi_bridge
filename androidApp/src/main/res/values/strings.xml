@@ -49,4 +49,35 @@
     <string name="channel_description">Notification for the rakuyomi background server</string>
     <string name="notification_text_starting">Starting server…</string>
     <string name="notification_text_running">Server running on port %d</string>
+
+    <!-- Browser -->
+    <string name="browser_title">Browser</string>
+    <string name="url_hint">Search or enter address</string>
+    <string name="cd_back">Back</string>
+    <string name="cd_forward">Forward</string>
+    <string name="cd_refresh">Reload</string>
+    <string name="cd_stop">Stop loading</string>
+    <string name="cd_bookmark_add">Add bookmark</string>
+    <string name="cd_bookmark_remove">Remove bookmark</string>
+    <string name="cd_history">History</string>
+    <string name="cd_clear_url">Clear URL</string>
+    <string name="cd_close_sheet">Close</string>
+    <string name="cd_more">More</string>
+    <string name="bookmarks_title">Bookmarks</string>
+    <string name="history_title">History</string>
+    <string name="bookmark_add">Bookmark this page</string>
+    <string name="bookmark_remove">Remove bookmark</string>
+    <string name="bookmarks_empty">No bookmarks yet. Open the menu and choose "Bookmark this page" to save the current page.</string>
+    <string name="history_empty">No browsing history yet.</string>
+    <string name="action_clear_history">Clear all</string>
+    <string name="action_remove">Remove</string>
+    <string name="action_share_url">Share</string>
+    <string name="action_copy_url">Copy link</string>
+    <string name="action_open_external">Open in system browser</string>
+    <string name="action_clear_cookies">Clear cookies</string>
+    <string name="cookies_cleared">Cookies cleared</string>
+    <string name="download_started">Download started</string>
+    <string name="download_failed">Download failed</string>
+    <string name="link_copied">Link copied to clipboard</string>
+    <string name="more_title">More</string>
 </resources>

@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import git.shin.rakuyomi_bridge.ui.screens.about.AboutScreen
+import git.shin.rakuyomi_bridge.ui.screens.browser.BrowserScreen
 import git.shin.rakuyomi_bridge.ui.screens.log.LogScreen
 import git.shin.rakuyomi_bridge.ui.screens.main.MainScreen
 import git.shin.rakuyomi_bridge.ui.screens.settings.SettingsScreen
@@ -27,6 +28,9 @@ fun NavGraph(
     }
     composable(Screen.Logs.route) {
       LogScreen()
+    }
+    composable(Screen.Browser.route) {
+      BrowserScreen()
     }
     composable(Screen.Settings.route) {
       SettingsScreen()

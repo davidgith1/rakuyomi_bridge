@@ -35,6 +35,6 @@ class SettingsRepository @Inject constructor(
 
   private fun getDefaultHomePath(): String {
     val baseDir = Environment.getExternalStorageDirectory()
-    return File(baseDir, "koreader/${ServerConfig.DATA_FOLDER_NAME}").absolutePath
+    return File(baseDir, "sckoreader/${ServerConfig.DATA_FOLDER_NAME}").absolutePath
   }
 }
