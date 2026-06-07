@@ -90,14 +90,17 @@ fun SettingsScreen(
       is UpdateRepository.UpdateResult.UpToDate -> {
         snackbarHostState.showSnackbar(context.getString(R.string.update_no_update))
       }
+
       is UpdateRepository.UpdateResult.Failed -> {
         snackbarHostState.showSnackbar(
           context.getString(R.string.update_check_failed, result.message)
         )
       }
+
       is UpdateRepository.UpdateResult.UpdateAvailable -> {
         // The auto-show happens in MainActivity.
       }
+
       UpdateRepository.UpdateResult.Idle -> Unit
     }
   }

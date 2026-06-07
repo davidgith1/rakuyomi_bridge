@@ -26,7 +26,10 @@ object Downloads {
       setDescription(url)
       setTitle(guessFileName(url, contentDisposition, resolvedMime))
       setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-      setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, guessFileName(url, contentDisposition, resolvedMime))
+      setDestinationInExternalPublicDir(
+        Environment.DIRECTORY_DOWNLOADS,
+        guessFileName(url, contentDisposition, resolvedMime)
+      )
     }
 
     val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as? DownloadManager

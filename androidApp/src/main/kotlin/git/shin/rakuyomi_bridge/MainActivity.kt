@@ -22,35 +22,35 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var updateRepository: UpdateRepository
+  @Inject
+  lateinit var updateRepository: UpdateRepository
 
-    private val viewModel: MainViewModel by viewModels()
+  private val viewModel: MainViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
-        super.onCreate(savedInstanceState)
-        setContent {
-            val appTheme by viewModel.appTheme.collectAsState()
-            val updateInfo by updateRepository.updateInfo.collectAsState()
+  override fun onCreate(savedInstanceState: Bundle?) {
+    enableEdgeToEdge()
+    super.onCreate(savedInstanceState)
+    setContent {
+      val appTheme by viewModel.appTheme.collectAsState()
+      val updateInfo by updateRepository.updateInfo.collectAsState()
 
-            LaunchedEffect(Unit) {
-                updateRepository.checkForUpdate()
-            }
+      LaunchedEffect(Unit) {
+        updateRepository.checkForUpdate()
+      }
 
-            RakuyomiTheme(appTheme = appTheme) {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    MainApp()
+      RakuyomiTheme(appTheme = appTheme) {
+        Surface(modifier = Modifier.fillMaxSize()) {
+          MainApp()
 
-                    updateInfo?.let { info ->
-                        UpdateDialog(
-                            info = info,
-                            onDismiss = { updateRepository.dismissUpdate() },
-                            onConfirm = { updateRepository.downloadAndInstall(info) }
-                        )
-                    }
-                }
-            }
+          updateInfo?.let { info ->
+            UpdateDialog(
+              info = info,
+              onDismiss = { updateRepository.dismissUpdate() },
+              onConfirm = { updateRepository.downloadAndInstall(info) }
+            )
+          }
         }
+      }
     }
+  }
 }
