@@ -2,30 +2,40 @@ package git.shin.rakuyomi_bridge.headless.ui
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
+import android.provider.DocumentsContract
 import android.provider.Settings
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
+import androidx.core.net.toUri
 import git.shin.rakuyomi_bridge.ServerStatus
 import git.shin.rakuyomi_bridge.headless.HeadlessApp
 import git.shin.rakuyomi_bridge.headless.R
 import git.shin.rakuyomi_bridge.headless.service.ServerService
-import androidx.core.graphics.toColorInt
-import androidx.core.net.toUri
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Minimal control screen for the headless build.
@@ -44,7 +54,9 @@ class MainActivity : Activity() {
   private lateinit var startStopButton: Button
   private lateinit var storageButton: Button
   private lateinit var notificationButton: Button
+  private lateinit var homePathText: TextView
 
+  private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
   private val handler = Handler(Looper.getMainLooper())
   private val pollStatus = object : Runnable {
     override fun run() {
@@ -56,6 +68,19 @@ class MainActivity : Activity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(buildUi())
+
+    scope.launch {
+      app.settings.homePathFlow.collect { path ->
+        withContext(Dispatchers.Main) {
+          homePathText.text = path
+        }
+      }
+    }
+  }
+
+  override fun onDestroy() {
+    scope.cancel()
+    super.onDestroy()
   }
 
   override fun onResume() {
@@ -120,6 +145,28 @@ class MainActivity : Activity() {
       setOnClickListener { requestNotificationPermission() }
     }
     root.addView(notificationButton)
+    root.addView(spacer(gap * 2))
+
+    // Data Directory
+    root.addView(TextView(this).apply {
+      text = getString(R.string.data_directory)
+      setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+      setTypeface(typeface, android.graphics.Typeface.BOLD)
+    })
+    root.addView(spacer(gap / 2))
+
+    homePathText = TextView(this).apply {
+      setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+      setTextColor(Color.GRAY)
+    }
+    root.addView(homePathText)
+    root.addView(spacer(gap))
+
+    val selectFolderButton = Button(this).apply {
+      text = getString(R.string.select_folder)
+      setOnClickListener { onSelectFolderClicked() }
+    }
+    root.addView(selectFolderButton)
     root.addView(spacer(gap * 2))
 
     root.addView(makeInfoText())
@@ -258,6 +305,61 @@ class MainActivity : Activity() {
     }
   }
 
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    if (requestCode == REQ_PICK_FOLDER && resultCode == RESULT_OK) {
+      data?.data?.let { uri ->
+        val path = getAbsolutePathFromUri(uri)
+        if (path != null) {
+          app.settings.setHomePath(path)
+        }
+      }
+    }
+  }
+
+  private fun onSelectFolderClicked() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+      startActivityForResult(intent, REQ_PICK_FOLDER)
+    } else {
+      showPathInputDialog()
+    }
+  }
+
+  private fun showPathInputDialog() {
+    val input = EditText(this).apply {
+      setText(homePathText.text)
+    }
+    AlertDialog.Builder(this)
+      .setTitle(R.string.select_folder)
+      .setView(input)
+      .setPositiveButton(android.R.string.ok) { _, _ ->
+        val path = input.text.toString()
+        if (path.isNotEmpty()) {
+          app.settings.setHomePath(path)
+        }
+      }
+      .setNegativeButton(android.R.string.cancel, null)
+      .show()
+  }
+
+  private fun getAbsolutePathFromUri(uri: Uri): String? {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return null
+    return try {
+      val docId = DocumentsContract.getTreeDocumentId(uri)
+      val split = docId.split(":")
+      val type = split[0]
+      if ("primary".equals(type, ignoreCase = true)) {
+        Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+      } else {
+        null
+      }
+    } catch (e: Exception) {
+      print(e)
+      null
+    }
+  }
+
   private fun needsStoragePermission(): Boolean {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return false
     return !Environment.isExternalStorageManager()
@@ -273,5 +375,6 @@ class MainActivity : Activity() {
   companion object {
     private const val STATUS_POLL_INTERVAL_MS = 1000L
     private const val REQ_NOTIFICATION = 0x4211
+    private const val REQ_PICK_FOLDER = 0x4212
   }
 }

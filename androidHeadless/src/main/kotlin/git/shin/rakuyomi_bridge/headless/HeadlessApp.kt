@@ -5,9 +5,6 @@ import git.shin.rakuyomi_bridge.RakuyomiServerAdapter
 import git.shin.rakuyomi_bridge.ServerConfig
 import git.shin.rakuyomi_bridge.headless.service.NetworkBridgeWorker
 import git.shin.rakuyomi_bridge.headless.settings.SettingsStore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient

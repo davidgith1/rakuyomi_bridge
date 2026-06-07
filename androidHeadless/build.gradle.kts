@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 import java.util.Properties
 
 plugins {
@@ -18,6 +20,7 @@ android {
   defaultConfig {
     applicationId = "git.shin.rakuyomi_bridge.headless"
     minSdk = 18
+    //noinspection OldTargetApi
     targetSdk = 34
     versionCode = project.property("versionCode").toString().toInt()
     versionName = project.property("versionName").toString()

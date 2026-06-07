@@ -16,6 +16,12 @@
     <string name="storage_settings_unavailable">この端末ではストレージ設定を開けません。</string>
     <string name="notification_denied">通知の許可が拒否されました。</string>
 
+    <string name="data_directory">データディレクトリ</string>
+    <string name="current_path">現在のパス</string>
+    <string name="not_set">未設定</string>
+    <string name="select_folder">フォルダを選択</string>
+    <string name="data_dir_description">データベース、ソース、ダウンロード用のディレクトリ。</string>
+
     <string name="info_text">「開始」をタップしてrakuyomiサーバーを起動してください。通知によってバックグラウンドで動作し続けるため、KOReaderは上記のURLでブリッジに接続できます。</string>
 
     <string name="channel_name">Rakuyomiサーバー</string>

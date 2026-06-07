@@ -18,6 +18,13 @@
     <string name="storage_settings_unavailable">Cannot open storage settings on this device.</string>
     <string name="notification_denied">Notification permission denied.</string>
 
+    <!-- Data Directory -->
+    <string name="data_directory">Data Directory</string>
+    <string name="current_path">Current Path</string>
+    <string name="not_set">Not set</string>
+    <string name="select_folder">Select Folder</string>
+    <string name="data_dir_description">Directory for database, sources, and downloads.</string>
+
     <!-- Info text shown below the buttons -->
     <string name="info_text">Tap Start to launch the rakuyomi server. The notification keeps it alive in the background, so KOReader can reach the bridge at the URL above.</string>
 

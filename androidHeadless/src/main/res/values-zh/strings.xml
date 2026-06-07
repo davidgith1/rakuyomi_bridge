@@ -16,6 +16,12 @@
     <string name="storage_settings_unavailable">无法在本设备上打开存储设置。</string>
     <string name="notification_denied">已拒绝通知权限。</string>
 
+    <string name="data_directory">数据目录</string>
+    <string name="current_path">当前路径</string>
+    <string name="not_set">未设置</string>
+    <string name="select_folder">选择文件夹</string>
+    <string name="data_dir_description">存储数据库、源和下载内容的目录。</string>
+
     <string name="info_text">点击“启动”以运行 rakuyomi 服务器。通知会保持后台运行，使 KOReader 可以通过上方的 URL 连接到此桥接服务。</string>
 
     <string name="channel_name">Rakuyomi 服务器</string>
