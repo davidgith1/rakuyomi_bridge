@@ -14,7 +14,7 @@ Two Android modules ship from this repo:
   `LinearLayout` screen (no Compose, no Hilt, no DataStore). minSdk 18
   (Android 4.3). Different `applicationId` so it can be installed alongside
   the Compose app; deep links are namespaced
-  (`rakuyomi_bridge_headless://start|stop`).
+  (`rakuyomi_bridge://start|stop`).
 
 Includes a CLI test harness (`bridge/cli/`) for Linux that starts/stops the
 server binary and runs API tests.
@@ -136,4 +136,4 @@ Linux:    HttpURLConnection  (standalone server binary, systemd)
 - Health check: `GET /health-check`
 - Deep link schemes:
   - Compose app: `rakuyomi_bridge://start` and `...://stop`
-  - Headless app: `rakuyomi_bridge_headless://start` and `...://stop`
+  - Headless app: `rakuyomi_bride://start` and `...://stop`

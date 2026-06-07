@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 
 /**
  * Theme-less entry point that translates deep-link intents into service
- * start/stop actions. Registered for `rakuyomi_bridge_headless://start`
+ * start/stop actions. Registered for `rakuyomi_bridge://start`
  * and `...://stop` so that external tools (Tasker, KOReader, adb) can drive
  * the server without showing any UI.
  */

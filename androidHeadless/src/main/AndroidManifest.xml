@@ -62,7 +62,10 @@
         <activity
             android:name=".service.ServiceLauncherActivity"
             android:theme="@android:style/Theme.NoDisplay"
-            android:exported="true">
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:taskAffinity="">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

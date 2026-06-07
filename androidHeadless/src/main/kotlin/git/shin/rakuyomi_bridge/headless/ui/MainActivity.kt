@@ -25,6 +25,8 @@ import git.shin.rakuyomi_bridge.ServerStatus
 import git.shin.rakuyomi_bridge.headless.HeadlessApp
 import git.shin.rakuyomi_bridge.headless.R
 import git.shin.rakuyomi_bridge.headless.service.ServerService
+import androidx.core.graphics.toColorInt
+import androidx.core.net.toUri
 
 /**
  * Minimal control screen for the headless build.
@@ -168,9 +170,9 @@ class MainActivity : Activity() {
     }
     statusText.setTextColor(
       when (status) {
-        ServerStatus.RUNNING -> Color.parseColor("#2E7D32")
-        ServerStatus.STARTING -> Color.parseColor("#1565C0")
-        else -> Color.parseColor("#C62828")
+        ServerStatus.RUNNING -> "#2E7D32".toColorInt()
+        ServerStatus.STARTING -> "#1565C0".toColorInt()
+        else -> "#C62828".toColorInt()
       }
     )
     startStopButton.text = getString(
@@ -213,15 +215,17 @@ class MainActivity : Activity() {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return
     try {
       val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-        data = Uri.parse("package:$packageName")
+        data = "package:$packageName".toUri()
       }
       startActivity(intent)
     } catch (e: Exception) {
+      print(e)
       // Some OEM ROMs hide the per-app action; fall back to the generic
       // manage-storage page so the user can still navigate manually.
       try {
         startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
       } catch (e2: Exception) {
+        print(e2)
         Toast.makeText(
           this,
           getString(R.string.storage_settings_unavailable),
