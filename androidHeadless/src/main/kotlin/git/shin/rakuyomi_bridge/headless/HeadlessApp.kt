@@ -23,8 +23,6 @@ class HeadlessApp : Application() {
   lateinit var settings: SettingsStore
     private set
 
-  val appScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-
   override fun onCreate() {
     super.onCreate()
 
