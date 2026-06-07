@@ -8,7 +8,9 @@ import android.provider.DocumentsContract
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,12 +18,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +38,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -41,6 +51,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import git.shin.rakuyomi_bridge.R
+import git.shin.rakuyomi_bridge.data.model.AppTheme
 import git.shin.rakuyomi_bridge.ui.screens.main.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,6 +61,8 @@ fun SettingsScreen(
 ) {
   val context = LocalContext.current
   val homePath by viewModel.homePath.collectAsState()
+  val appTheme by viewModel.appTheme.collectAsState()
+  var showThemeMenu by remember { mutableStateOf(false) }
 
   val folderLauncher = rememberLauncherForActivityResult(
     contract = ActivityResultContracts.OpenDocumentTree()
@@ -73,9 +86,82 @@ fun SettingsScreen(
       modifier = Modifier
         .fillMaxSize()
         .padding(paddingValues)
-        .padding(24.dp),
+        .padding(24.dp)
+        .verticalScroll(rememberScrollState()),
       horizontalAlignment = Alignment.CenterHorizontally
     ) {
+      // Appearance Section
+      Text(
+        text = stringResource(R.string.theme_title),
+        fontSize = 18.sp,
+        fontWeight = FontWeight.SemiBold,
+        modifier = Modifier.align(Alignment.Start)
+      )
+
+      Spacer(modifier = Modifier.height(8.dp))
+
+      Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+          containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+        )
+      ) {
+        Box {
+          Row(
+            modifier = Modifier
+              .clickable { showThemeMenu = true }
+              .padding(16.dp)
+              .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+          ) {
+            Column(modifier = Modifier.weight(1f)) {
+              Text(
+                text = stringResource(R.string.theme_mode),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary
+              )
+              Text(
+                text = when (appTheme) {
+                  AppTheme.SYSTEM -> stringResource(R.string.theme_system)
+                  AppTheme.LIGHT -> stringResource(R.string.theme_light)
+                  AppTheme.DARK -> stringResource(R.string.theme_dark)
+                },
+                style = MaterialTheme.typography.bodyMedium
+              )
+            }
+
+            Icon(Icons.Default.Palette, contentDescription = null)
+          }
+
+          DropdownMenu(
+            expanded = showThemeMenu,
+            onDismissRequest = { showThemeMenu = false }
+          ) {
+            AppTheme.entries.forEach { theme ->
+              DropdownMenuItem(
+                text = {
+                  Text(
+                    when (theme) {
+                      AppTheme.SYSTEM -> stringResource(R.string.theme_system)
+                      AppTheme.LIGHT -> stringResource(R.string.theme_light)
+                      AppTheme.DARK -> stringResource(R.string.theme_dark)
+                    }
+                  )
+                },
+                onClick = {
+                  viewModel.updateTheme(theme)
+                  showThemeMenu = false
+                }
+              )
+            }
+          }
+        }
+      }
+
+      Spacer(modifier = Modifier.height(24.dp))
+
+      // Data Directory Section
       Text(
         text = stringResource(R.string.data_directory),
         fontSize = 18.sp,

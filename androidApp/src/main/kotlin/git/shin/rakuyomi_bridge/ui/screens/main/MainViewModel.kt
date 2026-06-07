@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import git.shin.rakuyomi_bridge.RakuyomiServerAdapter
 import git.shin.rakuyomi_bridge.ServerStatus
+import git.shin.rakuyomi_bridge.data.model.AppTheme
 import git.shin.rakuyomi_bridge.data.repository.SettingsRepository
 import git.shin.rakuyomi_bridge.service.ServerService
 import kotlinx.coroutines.flow.SharingStarted
@@ -26,6 +27,12 @@ class MainViewModel @Inject constructor(
     scope = viewModelScope,
     started = SharingStarted.WhileSubscribed(5000),
     initialValue = ""
+  )
+
+  val appTheme: StateFlow<AppTheme> = settingsRepository.themeFlow.stateIn(
+    scope = viewModelScope,
+    started = SharingStarted.WhileSubscribed(5000),
+    initialValue = AppTheme.SYSTEM
   )
 
   val serverStatus: StateFlow<ServerStatus> = server.status
@@ -54,6 +61,12 @@ class MainViewModel @Inject constructor(
   fun updateHomePath(path: String) {
     viewModelScope.launch {
       settingsRepository.setHomePath(path)
+    }
+  }
+
+  fun updateTheme(theme: AppTheme) {
+    viewModelScope.launch {
+      settingsRepository.setTheme(theme)
     }
   }
 }

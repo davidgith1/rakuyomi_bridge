@@ -72,8 +72,7 @@ fun LogScreen(
       LazyColumn(
         modifier = Modifier
           .fillMaxSize()
-          .padding(paddingValues)
-          .background(Color(0xFF1E1E1E)),
+          .padding(paddingValues),
         contentPadding = PaddingValues(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
       ) {
@@ -89,7 +88,7 @@ fun LogScreen(
 fun RequestLogItem(request: ServerRequest) {
   Card(
     colors = CardDefaults.cardColors(
-      containerColor = Color(0xFF2D2D2D)
+      containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
     ),
     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
   ) {
@@ -119,8 +118,7 @@ fun RequestLogItem(request: ServerRequest) {
           Spacer(modifier = Modifier.width(8.dp))
           Text(
             text = request.path,
-            color = Color.White,
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.bodyMedium,
             fontFamily = FontFamily.Monospace,
             modifier = Modifier.weight(1f, fill = false)
           )
@@ -143,13 +141,13 @@ fun RequestLogItem(request: ServerRequest) {
       ) {
         Text(
           text = request.timestamp,
-          color = Color.Gray,
-          fontSize = 11.sp
+          style = MaterialTheme.typography.labelSmall,
+          color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
           text = "${request.durationMs} ms",
-          color = Color.Gray,
-          fontSize = 11.sp
+          style = MaterialTheme.typography.labelSmall,
+          color = MaterialTheme.colorScheme.onSurfaceVariant
         )
       }
     }
