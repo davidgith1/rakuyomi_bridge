@@ -10,6 +10,7 @@ import git.shin.rakuyomi_bridge.data.repository.SettingsRepository
 import git.shin.rakuyomi_bridge.remote.WebViewCookieJar
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
@@ -27,8 +28,16 @@ object AppModule {
 
   @Provides
   @Singleton
+  fun provideJson(): Json = Json {
+    ignoreUnknownKeys = true
+    coerceInputValues = true
+    encodeDefaults = true
+    isLenient = true
+  }
+
+  @Provides
+  @Singleton
   fun provideServerConfig(settingsRepository: SettingsRepository): ServerConfig {
-    // We use runBlocking here because provideServerConfig is called once for the Singleton.
     val homePath = runBlocking { settingsRepository.homePathFlow.first() }
     return ServerConfig(homePath = homePath)
   }

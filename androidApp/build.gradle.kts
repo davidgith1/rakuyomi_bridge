@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -11,12 +13,24 @@ android {
     namespace = "git.shin.rakuyomi_bridge"
     compileSdk = 34
 
+    val localProperties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.inputStream())
+    }
+
     defaultConfig {
         applicationId = "git.shin.rakuyomi_bridge"
         minSdk = 21
         targetSdk = 34
         versionCode = project.property("versionCode").toString().toInt()
         versionName = project.property("versionName").toString()
+
+        buildConfigField(
+            "String",
+            "RELEASE_CERT_SHA256",
+            "\"${localProperties.getProperty("RELEASE_CERT_SHA256") ?: ""}\""
+        )
     }
 
     buildTypes {
@@ -41,6 +55,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -65,4 +80,5 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.markdown)
 }

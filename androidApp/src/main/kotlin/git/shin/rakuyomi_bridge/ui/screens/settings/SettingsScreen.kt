@@ -23,10 +23,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,8 +36,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -52,6 +57,7 @@ import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import git.shin.rakuyomi_bridge.R
 import git.shin.rakuyomi_bridge.data.model.AppTheme
+import git.shin.rakuyomi_bridge.data.repository.UpdateRepository
 import git.shin.rakuyomi_bridge.ui.screens.main.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +68,10 @@ fun SettingsScreen(
   val context = LocalContext.current
   val homePath by viewModel.homePath.collectAsState()
   val appTheme by viewModel.appTheme.collectAsState()
+  val updateResult by viewModel.updateResult.collectAsState()
   var showThemeMenu by remember { mutableStateOf(false) }
+  val snackbarHostState = remember { SnackbarHostState() }
+  var isChecking by remember { mutableStateOf(false) }
 
   val folderLauncher = rememberLauncherForActivityResult(
     contract = ActivityResultContracts.OpenDocumentTree()
@@ -75,12 +84,31 @@ fun SettingsScreen(
     }
   }
 
+  LaunchedEffect(updateResult) {
+    isChecking = false
+    when (val result = updateResult) {
+      is UpdateRepository.UpdateResult.UpToDate -> {
+        snackbarHostState.showSnackbar(context.getString(R.string.update_no_update))
+      }
+      is UpdateRepository.UpdateResult.Failed -> {
+        snackbarHostState.showSnackbar(
+          context.getString(R.string.update_check_failed, result.message)
+        )
+      }
+      is UpdateRepository.UpdateResult.UpdateAvailable -> {
+        // The auto-show happens in MainActivity.
+      }
+      UpdateRepository.UpdateResult.Idle -> Unit
+    }
+  }
+
   Scaffold(
     topBar = {
       CenterAlignedTopAppBar(
         title = { Text(stringResource(R.string.settings_title)) }
       )
-    }
+    },
+    snackbarHost = { SnackbarHost(snackbarHostState) }
   ) { paddingValues ->
     Column(
       modifier = Modifier
@@ -155,6 +183,63 @@ fun SettingsScreen(
                 }
               )
             }
+          }
+        }
+      }
+
+      Spacer(modifier = Modifier.height(24.dp))
+
+      // Updates Section
+      Text(
+        text = stringResource(R.string.update_section_title),
+        fontSize = 18.sp,
+        fontWeight = FontWeight.SemiBold,
+        modifier = Modifier.align(Alignment.Start)
+      )
+
+      Spacer(modifier = Modifier.height(8.dp))
+
+      Card(
+        modifier = Modifier
+          .fillMaxWidth()
+          .clickable(enabled = !isChecking) {
+            isChecking = true
+            viewModel.checkForUpdate()
+          },
+        colors = CardDefaults.cardColors(
+          containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+        )
+      ) {
+        Row(
+          modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+          verticalAlignment = Alignment.CenterVertically,
+          horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+          Column(modifier = Modifier.weight(1f)) {
+            Text(
+              text = stringResource(R.string.check_for_updates),
+              style = MaterialTheme.typography.labelMedium,
+              color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+              text = stringResource(
+                R.string.update_current_version,
+                git.shin.rakuyomi_bridge.BuildConfig.VERSION_NAME
+              ),
+              style = MaterialTheme.typography.bodyMedium
+            )
+          }
+
+          if (isChecking) {
+            CircularProgressIndicator(
+              modifier = Modifier
+                .height(24.dp),
+              strokeWidth = 2.dp
+            )
+          } else {
+            Icon(Icons.Default.SystemUpdate, contentDescription = null)
           }
         }
       }

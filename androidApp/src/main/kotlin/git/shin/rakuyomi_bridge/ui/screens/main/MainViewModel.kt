@@ -10,6 +10,7 @@ import git.shin.rakuyomi_bridge.RakuyomiServerAdapter
 import git.shin.rakuyomi_bridge.ServerStatus
 import git.shin.rakuyomi_bridge.data.model.AppTheme
 import git.shin.rakuyomi_bridge.data.repository.SettingsRepository
+import git.shin.rakuyomi_bridge.data.repository.UpdateRepository
 import git.shin.rakuyomi_bridge.service.ServerService
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
   private val server: RakuyomiServerAdapter,
-  private val settingsRepository: SettingsRepository
+  private val settingsRepository: SettingsRepository,
+  private val updateRepository: UpdateRepository
 ) : ViewModel() {
 
   val homePath: StateFlow<String> = settingsRepository.homePathFlow.stateIn(
@@ -36,6 +38,9 @@ class MainViewModel @Inject constructor(
   )
 
   val serverStatus: StateFlow<ServerStatus> = server.status
+
+  val updateInfo = updateRepository.updateInfo
+  val updateResult = updateRepository.lastResult
 
   fun refreshStatus() {
     server.queryRunning()
@@ -67,6 +72,12 @@ class MainViewModel @Inject constructor(
   fun updateTheme(theme: AppTheme) {
     viewModelScope.launch {
       settingsRepository.setTheme(theme)
+    }
+  }
+
+  fun checkForUpdate() {
+    viewModelScope.launch {
+      updateRepository.checkForUpdate()
     }
   }
 }
