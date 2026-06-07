@@ -13,7 +13,6 @@ kotlin {
     }
 
     jvm {
-        withJava()
     }
 
     sourceSets {

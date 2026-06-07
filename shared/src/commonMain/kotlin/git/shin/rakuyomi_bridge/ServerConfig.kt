@@ -23,10 +23,8 @@ data class ServerConfig(
 
     companion object {
         /**
-         * Default location for the rakuyomi data directory.
-         * Must match what the Lua plugin (Paths.lua) expects on Android:
-         *   /storage/emulated/0/koreader/rakuyomi
+         * Default folder name for rakuyomi data.
          */
-        const val DEFAULT_HOME_PATH = "/storage/emulated/0/koreader/rakuyomi"
+        const val DATA_FOLDER_NAME = "rakuyomi"
     }
 }

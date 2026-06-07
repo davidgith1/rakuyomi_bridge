@@ -98,7 +98,7 @@ Linux:    HttpURLConnection  (standalone server binary, systemd)
 
 ## RakuYomi Integration Points
 
-- Server port: `8787` (must match `listener.rs` `DEFAULT_TCP_PORT`)
+- Server port: `8787`
 - Server host: `127.0.0.1`
 - Data directory: `/storage/emulated/0/koreader/rakuyomi` (Android) or `~/.local/share/rakuyomi` (Linux)
 - Health check: `GET /health-check`

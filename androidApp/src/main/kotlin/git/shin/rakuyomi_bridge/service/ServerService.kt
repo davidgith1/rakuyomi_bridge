@@ -1,28 +1,43 @@
-package git.shin.rakuyomi_bridge
+package git.shin.rakuyomi_bridge.service
 
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
-import kotlinx.coroutines.*
+import dagger.hilt.android.AndroidEntryPoint
+import git.shin.rakuyomi_bridge.DEFAULT_SERVER_PORT
+import git.shin.rakuyomi_bridge.MainActivity
+import git.shin.rakuyomi_bridge.R
+import git.shin.rakuyomi_bridge.RakuyomiServerAdapter
+import git.shin.rakuyomi_bridge.data.repository.SettingsRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-/**
- * Foreground service that hosts the rakuyomi Rust server.
- *
- * The server runs inside the native library (librakuyomi_server.so) on
- * its own tokio runtime. This service merely manages the Android
- * lifecycle (foreground notification, wake lock, start/stop).
- */
+@Suppress("DEPRECATION")
+@AndroidEntryPoint
 class ServerService : Service() {
 
-    private lateinit var server: RakuyomiServer
-    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+  @Inject
+  lateinit var server: RakuyomiServerAdapter
+
+  @Inject
+  lateinit var settingsRepository: SettingsRepository
+
+  @Inject
+  lateinit var networkBridgeWorker: NetworkBridgeWorker
+
+  private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var wakeLock: PowerManager.WakeLock? = null
 
     companion object {
@@ -34,7 +49,6 @@ class ServerService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        server = RakuyomiServer()
         createNotificationChannel()
     }
 
@@ -62,26 +76,29 @@ class ServerService : Service() {
     private fun startServer() {
         if (server.isRunning) return
 
-        val notification = if (Build.VERSION.SDK_INT >= 26) {
-            buildNotification26(getString(R.string.notification_text_starting))
+      val notification = buildNotification(getString(R.string.notification_text_starting))
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        startForeground(
+          NOTIFICATION_ID,
+          notification,
+          android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+        )
         } else {
-            buildNotificationLegacy()
-        }
         startForeground(NOTIFICATION_ID, notification)
+      }
 
-        // Acquire partial wake lock so the server stays alive while
-        // the device is in deep sleep (common on e‑ink readers).
-        val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+      val pm = getSystemService(POWER_SERVICE) as PowerManager
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "rakuyomi:server")
         wakeLock?.acquire(4 * 60 * 60 * 1000L) // max 4 hours
 
         scope.launch {
             try {
-                server.start()
-                if (Build.VERSION.SDK_INT >= 26) {
-                    updateNotification26(getString(R.string.notification_text_running, DEFAULT_SERVER_PORT))
-                }
+              val homePath = settingsRepository.homePathFlow.first()
+              networkBridgeWorker.start()
+              server.start(homePath)
+              updateNotification(getString(R.string.notification_text_running, DEFAULT_SERVER_PORT))
             } catch (e: Exception) {
+              print(e)
                 stopSelf()
             }
         }
@@ -89,15 +106,24 @@ class ServerService : Service() {
 
     private fun stopServer() {
         if (!server.isRunning) return
+      networkBridgeWorker.stop()
+      scope.launch {
         runCatching { server.stop() }
+        withContext(Dispatchers.Main) {
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+          } else {
+            @Suppress("DEPRECATION")
+            stopForeground(true)
+          }
+          stopSelf()
+        }
+      }
         wakeLock?.let {
             if (it.isHeld) it.release()
         }
         wakeLock = null
-        stopForeground(STOP_FOREGROUND_REMOVE)
     }
-
-    // ── Notification helpers ──────────────────────────────────────
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT < 26) return
@@ -109,35 +135,25 @@ class ServerService : Service() {
             description = getString(R.string.channel_description)
             setShowBadge(false)
         }
-        val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+      val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         nm.createNotificationChannel(channel)
     }
 
-    @Suppress("DEPRECATION")
-    private fun buildNotificationLegacy(): Notification {
-        return Notification(
-            android.R.drawable.ic_menu_share,
-            getString(R.string.app_name),
-            System.currentTimeMillis()
-        ).apply {
-            setLatestEventInfo(
-                this@ServerService,
-                getString(R.string.app_name),
-                getString(R.string.notification_text_starting),
-                null
-            )
-            flags = flags or Notification.FLAG_ONGOING_EVENT
-        }
-    }
-
-    private fun buildNotification26(text: String): Notification {
+  private fun buildNotification(text: String): Notification {
         val openIntent = PendingIntent.getActivity(
             this, 0,
             Intent(this, MainActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        return Notification.Builder(this, CHANNEL_ID)
+    val builder = if (Build.VERSION.SDK_INT >= 26) {
+      Notification.Builder(this, CHANNEL_ID)
+    } else {
+      @Suppress("DEPRECATION")
+      Notification.Builder(this)
+    }
+
+    return builder
             .setContentTitle(getString(R.string.app_name))
             .setContentText(text)
             .setSmallIcon(android.R.drawable.ic_menu_share)
@@ -147,8 +163,8 @@ class ServerService : Service() {
             .build()
     }
 
-    private fun updateNotification26(text: String) {
-        val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        nm.notify(NOTIFICATION_ID, buildNotification26(text))
+  private fun updateNotification(text: String) {
+    val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+    nm.notify(NOTIFICATION_ID, buildNotification(text))
     }
 }

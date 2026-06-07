@@ -2,7 +2,7 @@ package git.shin.rakuyomi_bridge
 
 import kotlinx.coroutines.delay
 
-class BridgeClient(private val config: ServerConfig = ServerConfig()) {
+class BridgeClient(private val config: ServerConfig) {
 
     suspend fun waitForReady(timeoutSeconds: Int = 10): Boolean {
         val deadline = System.currentTimeMillis() + timeoutSeconds * 1000L

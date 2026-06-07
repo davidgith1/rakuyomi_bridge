@@ -1,4 +1,4 @@
-package git.shin.rakuyomi_bridge
+package git.shin.rakuyomi_bridge.ui.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
