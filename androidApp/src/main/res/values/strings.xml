@@ -4,6 +4,7 @@
     <string name="app_name">Rakuyomi Bridge</string>
 
     <!-- Layout -->
+    <string name="home_title">Home</string>
     <string name="title_rakuyomi_bridge">Rakuyomi Bridge</string>
     <string name="port_format">http://127.0.0.1:%d</string>
     <string name="start_server">Start Server</string>
@@ -13,6 +14,8 @@
     <string name="status_starting">Starting…</string>
     <string name="status_unknown">Status unknown</string>
     <string name="info_text">The KOReader plugin will connect automatically when the server is running.</string>
+    <string name="koreader_hint">Opening the Rakuyomi plugin in KOReader will also start this app automatically in the background.</string>
+    <string name="browser_hint">The Browser tab allows you to browse and log in to your favorite manga sites. Rakuyomi can then access information on your behalf.</string>
 
     <!-- Permission dialogs -->
     <string name="storage_title">Storage access required</string>
@@ -46,7 +49,13 @@
     <string name="version_format">Version %s</string>
     <string name="about_description">Rakuyomi is a manga reader plugin for KOReader. This app acts as a bridge to run the Rust server on Android.</string>
     <string name="credits_title">Credits</string>
-    <string name="credits_text">Built with Kotlin Multiplatform, Jetpack Compose, and Axum (Rust).</string>
+    <string name="support_dev">Support Developer</string>
+    <string name="ko_fi_link">ko-fi.com/tachib_shin</string>
+    <string name="source_code">Source Code</string>
+    <string name="github_link">github.com/tachibana-shin/rakuyomi</string>
+    <string name="license_title">License</string>
+    <string name="license_name">GNU Affero General Public License v3.0</string>
+    <string name="license_link">www.gnu.org/licenses/agpl-3.0.html</string>
     <string name="copyright">© 2024 shin</string>
 
     <!-- Server Service -->

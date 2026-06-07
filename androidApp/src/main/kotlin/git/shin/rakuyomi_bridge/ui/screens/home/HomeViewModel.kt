@@ -1,4 +1,4 @@
-package git.shin.rakuyomi_bridge.ui.screens.main
+package git.shin.rakuyomi_bridge.ui.screens.home
 
 import android.content.Context
 import android.content.Intent
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
   private val server: RakuyomiServerAdapter,
   private val settingsRepository: SettingsRepository,
   private val updateRepository: UpdateRepository

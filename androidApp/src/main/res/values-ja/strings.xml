@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">Rakuyomi Bridge</string>
+
+    <!-- Layout -->
+    <string name="home_title">ホーム</string>
+    <string name="title_rakuyomi_bridge">Rakuyomi Bridge</string>
+    <string name="port_format">http://127.0.0.1:%d</string>
+    <string name="start_server">サーバーを開始</string>
+    <string name="stop_server">サーバーを停止</string>
+    <string name="status_stopped">停止中</string>
+    <string name="status_running">実行中</string>
+    <string name="status_starting">開始中…</string>
+    <string name="status_unknown">ステータス不明</string>
+    <string name="info_text">サーバーが実行されると、KOReaderプラグインは自動的に接続されます。</string>
+    <string name="koreader_hint">KOReaderでRakuyomiプラグインを開くと、このアプリもバックグラウンドで自動的に起動します。</string>
+    <string name="browser_hint">「ブラウザ」タブでは、お気に入りのマンガサイトを閲覧したりログインしたりできます。これにより、Rakuyomiがユーザーに代わって情報にアクセスできるようになります。</string>
+
+    <!-- Permission dialogs -->
+    <string name="storage_title">ストレージへのアクセスが必要です</string>
+    <string name="storage_message">Rakuyomi Bridgeは、共有のKOReaderフォルダ（/storage/emulated/0/koreader/rakuyomi）にあるマンガデータを読み書きするために、すべてのファイルを管理する権限が必要です。\n\n設定に移動します。「すべてのファイルの管理を許可」をオンにしてから、戻るボタンを押してください。</string>
+    <string name="storage_go_to_settings">設定へ移動</string>
+    <string name="cancel">キャンセル</string>
+
+    <string name="notification_title">通知の権限</string>
+    <string name="notification_message">Rakuyomi Bridgeはサーバーを維持するためにフォアグラウンドサービスを実行します。サービスを維持するためにAndroidは通知の権限を必要とします。\n\nプロンプトが表示されたら「許可」をタップしてください。</string>
+    <string name="ok">OK</string>
+
+    <string name="notification_denied">通知の権限が拒否されました。</string>
+
+    <string name="logs_title">ログ</string>
+    <string name="clear_logs">ログを消去</string>
+    <string name="no_logs_yet">まだログはありません。サーバーへのリクエストがここに表示されます。</string>
+    <string name="settings_title">設定</string>
+    <string name="theme_title">外観</string>
+    <string name="theme_mode">テーマモード</string>
+    <string name="theme_system">システムデフォルト</string>
+    <string name="theme_light">ライト</string>
+    <string name="theme_dark">ダーク</string>
+    <string name="about_title">このアプリについて</string>
+    <string name="data_directory">データディレクトリ</string>
+    <string name="current_path">現在のパス</string>
+    <string name="not_set">未設定</string>
+    <string name="select_folder">フォルダを選択</string>
+    <string name="data_dir_description">このディレクトリには、Rakuyomiのデータベース、ソース、およびダウンロードされたチャプターが保存されます。KOReaderプラグインと同じフォルダを使用することをお勧めします。</string>
+    <string name="grant_all_files">すべてのファイルへのアクセスを許可</string>
+    <string name="all_files_required">アプリ固有のストレージ以外のフォルダにアクセスするために必要です。</string>
+    <string name="version_format">バージョン %s</string>
+    <string name="about_description">RakuyomiはKOReader用のマンガリーダープラグインです。このアプリは、Android上でRustサーバーを実行するためのブリッジとして機能します。</string>
+    <string name="credits_title">クレジット</string>
+    <string name="support_dev">開発者を支援</string>
+    <string name="ko_fi_link">ko-fi.com/tachib_shin</string>
+    <string name="source_code">ソースコード</string>
+    <string name="github_link">github.com/tachibana-shin/rakuyomi</string>
+    <string name="license_title">ライセンス</string>
+    <string name="license_name">GNU Affero General Public License v3.0</string>
+    <string name="license_link">www.gnu.org/licenses/agpl-3.0.html</string>
+    <string name="copyright">© 2024 shin</string>
+
+    <!-- Server Service -->
+    <string name="channel_name">Rakuyomi Server</string>
+    <string name="channel_description">rakuyomiバックグラウンドサーバーの通知</string>
+    <string name="notification_text_starting">サーバーを開始中…</string>
+    <string name="notification_text_running">サーバーがポート %d で実行中</string>
+
+    <!-- Browser -->
+    <string name="browser_title">ブラウザ</string>
+    <string name="url_hint">検索またはアドレスを入力</string>
+    <string name="cd_back">戻る</string>
+    <string name="cd_forward">進む</string>
+    <string name="cd_refresh">更新</string>
+    <string name="cd_stop">読み込み停止</string>
+    <string name="cd_bookmark_add">ブックマークに追加</string>
+    <string name="cd_bookmark_remove">ブックマークを削除</string>
+    <string name="cd_history">履歴</string>
+    <string name="cd_clear_url">URLをクリア</string>
+    <string name="cd_close_sheet">閉じる</string>
+    <string name="cd_more">その他</string>
+    <string name="bookmarks_title">ブックマーク</string>
+    <string name="history_title">履歴</string>
+    <string name="bookmark_add">このページをブックマーク</string>
+    <string name="bookmark_remove">ブックマークを削除</string>
+    <string name="bookmarks_empty">ブックマークはまだありません。メニューから「このページをブックマーク」を選択して保存してください。</string>
+    <string name="history_empty">閲覧履歴はまだありません。</string>
+    <string name="action_clear_history">すべて消去</string>
+    <string name="action_remove">削除</string>
+    <string name="action_share_url">共有</string>
+    <string name="action_copy_url">リンクをコピー</string>
+    <string name="action_open_external">外部ブラウザで開く</string>
+    <string name="action_clear_cookies">Cookieを消去</string>
+    <string name="cookies_cleared">Cookieを消去しました</string>
+    <string name="download_started">ダウンロードを開始しました</string>
+    <string name="download_failed">ダウンロードに失敗しました</string>
+    <string name="link_copied">リンクをクリップボードにコピーしました</string>
+    <string name="more_title">その他</string>
+
+    <!-- Updates -->
+    <string name="update_section_title">アップデート</string>
+    <string name="check_for_updates">アップデートを確認</string>
+    <string name="update_current_version">現在のバージョン: %1$s</string>
+    <string name="update_available">新しいバージョンが利用可能です</string>
+    <string name="update_message">新しいバージョン (%1$s) が利用可能です。今すぐアップデートしますか？</string>
+    <string name="update_now">今すぐアップデート</string>
+    <string name="update_no_update">最新バージョンを使用しています</string>
+    <string name="update_check_failed">アップデートの確認に失敗しました: %1$s</string>
+    <string name="update_downloading_title">Rakuyomi Bridgeのアップデートをダウンロード中</string>
+    <string name="update_downloading_description">新しいバージョンをダウンロードしています…</string>
+</resources>

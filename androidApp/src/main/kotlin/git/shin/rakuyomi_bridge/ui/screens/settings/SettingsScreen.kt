@@ -58,12 +58,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import git.shin.rakuyomi_bridge.R
 import git.shin.rakuyomi_bridge.data.model.AppTheme
 import git.shin.rakuyomi_bridge.data.repository.UpdateRepository
-import git.shin.rakuyomi_bridge.ui.screens.main.MainViewModel
+import git.shin.rakuyomi_bridge.ui.screens.home.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-  viewModel: MainViewModel = hiltViewModel()
+  viewModel: HomeViewModel = hiltViewModel()
 ) {
   val context = LocalContext.current
   val homePath by viewModel.homePath.collectAsState()

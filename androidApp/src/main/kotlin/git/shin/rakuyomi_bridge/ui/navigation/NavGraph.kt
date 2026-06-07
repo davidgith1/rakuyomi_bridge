@@ -9,8 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import git.shin.rakuyomi_bridge.ui.screens.about.AboutScreen
 import git.shin.rakuyomi_bridge.ui.screens.browser.BrowserScreen
+import git.shin.rakuyomi_bridge.ui.screens.home.HomeScreen
 import git.shin.rakuyomi_bridge.ui.screens.log.LogScreen
-import git.shin.rakuyomi_bridge.ui.screens.main.MainScreen
 import git.shin.rakuyomi_bridge.ui.screens.settings.SettingsScreen
 
 @Composable
@@ -24,7 +24,7 @@ fun NavGraph(
     modifier = Modifier.padding(paddingValues)
   ) {
     composable(Screen.Home.route) {
-      MainScreen()
+      HomeScreen()
     }
     composable(Screen.Logs.route) {
       LogScreen()

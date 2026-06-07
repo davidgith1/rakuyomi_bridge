@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">Rakuyomi Bridge</string>
+
+    <!-- Layout -->
+    <string name="home_title">Trang chủ</string>
+    <string name="title_rakuyomi_bridge">Rakuyomi Bridge</string>
+    <string name="port_format">http://127.0.0.1:%d</string>
+    <string name="start_server">Bắt đầu máy chủ</string>
+    <string name="stop_server">Dừng máy chủ</string>
+    <string name="status_stopped">Đã dừng</string>
+    <string name="status_running">Đang chạy</string>
+    <string name="status_starting">Đang bắt đầu…</string>
+    <string name="status_unknown">Trạng thái không xác định</string>
+    <string name="info_text">Plugin KOReader sẽ tự động kết nối khi máy chủ đang chạy.</string>
+    <string name="koreader_hint">Mở plugin Rakuyomi trong KOReader cũng sẽ tự động khởi chạy ứng dụng này trong chế độ nền.</string>
+    <string name="browser_hint">Tab Browser cho phép bạn duyệt các trang web / đăng nhập các trang manga yêu thích của bạn với tài khoản từ đó rakuyomi có thể lấy toàn bộ thông tin với tư cách của bạn.</string>
+
+    <!-- Permission dialogs -->
+    <string name="storage_title">Yêu cầu quyền truy cập bộ nhớ</string>
+    <string name="storage_message">Rakuyomi Bridge cần quyền quản lý tất cả tệp để đọc/ghi dữ liệu manga trong thư mục KOReader tại /storage/emulated/0/koreader/rakuyomi.\n\nBạn sẽ được đưa đến Cài đặt. Bật quyền \"Cho phép quản lý tất cả các tệp\", sau đó nhấn Quay lại.</string>
+    <string name="storage_go_to_settings">Đi đến Cài đặt</string>
+    <string name="cancel">Hủy</string>
+
+    <string name="notification_title">Quyền thông báo</string>
+    <string name="notification_message">Rakuyomi Bridge chạy một dịch vụ nền để duy trì máy chủ. Android yêu cầu quyền thông báo để dịch vụ có thể duy trì hoạt động.\n\nNhấn Cho phép khi được hỏi.</string>
+    <string name="ok">OK</string>
+
+    <string name="notification_denied">Quyền thông báo bị từ chối.</string>
+
+    <string name="logs_title">Nhật ký</string>
+    <string name="clear_logs">Xóa nhật ký</string>
+    <string name="no_logs_yet">Chưa có nhật ký. Các yêu cầu máy chủ sẽ xuất hiện ở đây.</string>
+    <string name="settings_title">Cài đặt</string>
+    <string name="theme_title">Giao diện</string>
+    <string name="theme_mode">Chế độ giao diện</string>
+    <string name="theme_system">Mặc định hệ thống</string>
+    <string name="theme_light">Sáng</string>
+    <string name="theme_dark">Tối</string>
+    <string name="about_title">Giới thiệu</string>
+    <string name="data_directory">Thư mục dữ liệu</string>
+    <string name="current_path">Đường dẫn hiện tại</string>
+    <string name="not_set">Chưa thiết lập</string>
+    <string name="select_folder">Chọn thư mục</string>
+    <string name="data_dir_description">Đây là nơi Rakuyomi lưu trữ cơ sở dữ liệu, nguồn và các chương đã tải xuống. Tốt nhất nên là cùng thư mục mà plugin KOReader sử dụng.</string>
+    <string name="grant_all_files">Cấp quyền truy cập tất cả tệp</string>
+    <string name="all_files_required">Cần thiết để truy cập các thư mục bên ngoài bộ nhớ riêng của ứng dụng.</string>
+    <string name="version_format">Phiên bản %s</string>
+    <string name="about_description">Rakuyomi là một plugin đọc manga cho KOReader. Ứng dụng này hoạt động như một cầu nối để chạy máy chủ Rust trên Android.</string>
+    <string name="credits_title">Tín dụng</string>
+    <string name="support_dev">Ủng hộ nhà phát triển</string>
+    <string name="ko_fi_link">ko-fi.com/tachib_shin</string>
+    <string name="source_code">Mã nguồn</string>
+    <string name="github_link">github.com/tachibana-shin/rakuyomi</string>
+    <string name="license_title">Giấy phép</string>
+    <string name="license_name">GNU Affero General Public License v3.0</string>
+    <string name="license_link">www.gnu.org/licenses/agpl-3.0.html</string>
+    <string name="copyright">© 2024 shin</string>
+
+    <!-- Server Service -->
+    <string name="channel_name">Rakuyomi Server</string>
+    <string name="channel_description">Thông báo cho máy chủ rakuyomi chạy nền</string>
+    <string name="notification_text_starting">Đang bắt đầu máy chủ…</string>
+    <string name="notification_text_running">Máy chủ đang chạy trên cổng %d</string>
+
+    <!-- Browser -->
+    <string name="browser_title">Trình duyệt</string>
+    <string name="url_hint">Tìm kiếm hoặc nhập địa chỉ</string>
+    <string name="cd_back">Quay lại</string>
+    <string name="cd_forward">Tiến</string>
+    <string name="cd_refresh">Tải lại</string>
+    <string name="cd_stop">Dừng tải</string>
+    <string name="cd_bookmark_add">Thêm dấu trang</string>
+    <string name="cd_bookmark_remove">Xóa dấu trang</string>
+    <string name="cd_history">Lịch sử</string>
+    <string name="cd_clear_url">Xóa URL</string>
+    <string name="cd_close_sheet">Đóng</string>
+    <string name="cd_more">Thêm</string>
+    <string name="bookmarks_title">Dấu trang</string>
+    <string name="history_title">Lịch sử</string>
+    <string name="bookmark_add">Đánh dấu trang này</string>
+    <string name="bookmark_remove">Xóa dấu trang</string>
+    <string name="bookmarks_empty">Chưa có dấu trang. Mở menu và chọn "Đánh dấu trang này" để lưu.</string>
+    <string name="history_empty">Chưa có lịch sử duyệt web.</string>
+    <string name="action_clear_history">Xóa tất cả</string>
+    <string name="action_remove">Xóa</string>
+    <string name="action_share_url">Chia sẻ</string>
+    <string name="action_copy_url">Sao chép liên kết</string>
+    <string name="action_open_external">Mở trong trình duyệt hệ thống</string>
+    <string name="action_clear_cookies">Xóa cookies</string>
+    <string name="cookies_cleared">Đã xóa cookies</string>
+    <string name="download_started">Đã bắt đầu tải xuống</string>
+    <string name="download_failed">Tải xuống thất bại</string>
+    <string name="link_copied">Đã sao chép liên kết vào khay nhớ tạm</string>
+    <string name="more_title">Thêm</string>
+
+    <!-- Updates -->
+    <string name="update_section_title">Cập nhật</string>
+    <string name="check_for_updates">Kiểm tra cập nhật</string>
+    <string name="update_current_version">Phiên bản hiện tại: %1$s</string>
+    <string name="update_available">Có phiên bản mới</string>
+    <string name="update_message">Một phiên bản mới (%1$s) đã có sẵn. Bạn có muốn cập nhật ngay bây giờ không?</string>
+    <string name="update_now">Cập nhật ngay</string>
+    <string name="update_no_update">Bạn đang sử dụng phiên bản mới nhất</string>
+    <string name="update_check_failed">Không thể kiểm tra cập nhật: %1$s</string>
+    <string name="update_downloading_title">Đang tải xuống bản cập nhật Rakuyomi Bridge</string>
+    <string name="update_downloading_description">Phiên bản mới đang được tải xuống…</string>
+</resources>

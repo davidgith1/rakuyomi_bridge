@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">Rakuyomi Bridge</string>
+
+    <!-- Layout -->
+    <string name="home_title">首页</string>
+    <string name="title_rakuyomi_bridge">Rakuyomi Bridge</string>
+    <string name="port_format">http://127.0.0.1:%d</string>
+    <string name="start_server">启动服务器</string>
+    <string name="stop_server">停止服务器</string>
+    <string name="status_stopped">已停止</string>
+    <string name="status_running">正在运行</string>
+    <string name="status_starting">正在启动…</string>
+    <string name="status_unknown">状态未知</string>
+    <string name="info_text">服务器运行时，KOReader 插件将自动连接。</string>
+    <string name="koreader_hint">在 KOReader 中打开 Rakuyomi 插件也会在后台自动启动此应用。</string>
+    <string name="browser_hint">“浏览器”选项卡允许您浏览并登录您最喜爱的漫画网站。随后 Rakuyomi 即可代表您访问相关信息。</string>
+
+    <!-- Permission dialogs -->
+    <string name="storage_title">需要存储权限</string>
+    <string name="storage_message">Rakuyomi Bridge 需要管理所有文件的权限，以便读写位于 /storage/emulated/0/koreader/rakuyomi 的 KOReader 共享文件夹中的漫画数据。\n\n您将被引导至设置界面。请开启“允许管理所有文件”开关，然后按返回键。</string>
+    <string name="storage_go_to_settings">前往设置</string>
+    <string name="cancel">取消</string>
+
+    <string name="notification_title">通知权限</string>
+    <string name="notification_message">Rakuyomi Bridge 运行一个前台服务以保持服务器运行。Android 需要通知权限以使服务保持活跃。\n\n请在提示时点击“允许”。</string>
+    <string name="ok">确定</string>
+
+    <string name="notification_denied">通知权限被拒绝。</string>
+
+    <string name="logs_title">日志</string>
+    <string name="clear_logs">清除日志</string>
+    <string name="no_logs_yet">暂无日志。服务器请求将显示在这里。</string>
+    <string name="settings_title">设置</string>
+    <string name="theme_title">外观</string>
+    <string name="theme_mode">主题模式</string>
+    <string name="theme_system">系统默认</string>
+    <string name="theme_light">浅色</string>
+    <string name="theme_dark">深色</string>
+    <string name="about_title">关于</string>
+    <string name="data_directory">数据目录</string>
+    <string name="current_path">当前路径</string>
+    <string name="not_set">未设置</string>
+    <string name="select_folder">选择文件夹</string>
+    <string name="data_dir_description">此目录用于存储 Rakuyomi 的数据库、来源和下载的章节。最好是 KOReader 插件所使用的文件夹。</string>
+    <string name="grant_all_files">授予所有文件访问权限</string>
+    <string name="all_files_required">访问应用专属存储以外的文件夹所需。</string>
+    <string name="version_format">版本 %s</string>
+    <string name="about_description">Rakuyomi 是一款适用于 KOReader 的漫画阅读器插件。此应用作为在 Android 上运行 Rust 服务器的桥梁。</string>
+    <string name="credits_title">致谢</string>
+    <string name="support_dev">支持开发者</string>
+    <string name="ko_fi_link">ko-fi.com/tachib_shin</string>
+    <string name="source_code">源代码</string>
+    <string name="github_link">github.com/tachibana-shin/rakuyomi</string>
+    <string name="license_title">许可证</string>
+    <string name="license_name">GNU Affero General Public License v3.0</string>
+    <string name="license_link">www.gnu.org/licenses/agpl-3.0.html</string>
+    <string name="copyright">© 2024 shin</string>
+
+    <!-- Server Service -->
+    <string name="channel_name">Rakuyomi Server</string>
+    <string name="channel_description">rakuyomi 后台服务器的通知</string>
+    <string name="notification_text_starting">正在启动服务器…</string>
+    <string name="notification_text_running">服务器正在端口 %d 上运行</string>
+
+    <!-- Browser -->
+    <string name="browser_title">浏览器</string>
+    <string name="url_hint">搜索或输入地址</string>
+    <string name="cd_back">后退</string>
+    <string name="cd_forward">前进</string>
+    <string name="cd_refresh">刷新</string>
+    <string name="cd_stop">停止加载</string>
+    <string name="cd_bookmark_add">添加书签</string>
+    <string name="cd_bookmark_remove">移除书签</string>
+    <string name="cd_history">历史记录</string>
+    <string name="cd_clear_url">清除 URL</string>
+    <string name="cd_close_sheet">关闭</string>
+    <string name="cd_more">更多</string>
+    <string name="bookmarks_title">书签</string>
+    <string name="history_title">历史记录</string>
+    <string name="bookmark_add">书签此页</string>
+    <string name="bookmark_remove">移除书签</string>
+    <string name="bookmarks_empty">暂无书签。打开菜单并选择“书签此页”进行保存。</string>
+    <string name="history_empty">暂无浏览历史。</string>
+    <string name="action_clear_history">清除全部</string>
+    <string name="action_remove">移除</string>
+    <string name="action_share_url">分享</string>
+    <string name="action_copy_url">复制链接</string>
+    <string name="action_open_external">在系统浏览器中打开</string>
+    <string name="action_clear_cookies">清除 Cookie</string>
+    <string name="cookies_cleared">Cookie 已清除</string>
+    <string name="download_started">下载已开始</string>
+    <string name="download_failed">下载失败</string>
+    <string name="link_copied">链接已复制到剪贴板</string>
+    <string name="more_title">更多</string>
+
+    <!-- Updates -->
+    <string name="update_section_title">更新</string>
+    <string name="check_for_updates">检查更新</string>
+    <string name="update_current_version">当前版本: %1$s</string>
+    <string name="update_available">有新版本可用</string>
+    <string name="update_message">新版本 (%1$s) 已发布。是否立即更新？</string>
+    <string name="update_now">立即更新</string>
+    <string name="update_no_update">您已是最新版本</string>
+    <string name="update_check_failed">检查更新失败: %1$s</string>
+    <string name="update_downloading_title">正在下载 Rakuyomi Bridge 更新</string>
+    <string name="update_downloading_description">正在下载新版本…</string>
+</resources>

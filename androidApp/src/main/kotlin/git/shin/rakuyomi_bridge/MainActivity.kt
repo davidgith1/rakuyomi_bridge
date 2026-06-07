@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import git.shin.rakuyomi_bridge.data.repository.UpdateRepository
 import git.shin.rakuyomi_bridge.ui.components.dialogs.UpdateDialog
 import git.shin.rakuyomi_bridge.ui.screens.MainApp
-import git.shin.rakuyomi_bridge.ui.screens.main.MainViewModel
+import git.shin.rakuyomi_bridge.ui.screens.home.HomeViewModel
 import git.shin.rakuyomi_bridge.ui.theme.RakuyomiTheme
 import javax.inject.Inject
 
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
   @Inject
   lateinit var updateRepository: UpdateRepository
 
-  private val viewModel: MainViewModel by viewModels()
+  private val viewModel: HomeViewModel by viewModels()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     enableEdgeToEdge()
