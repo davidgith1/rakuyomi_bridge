@@ -136,7 +136,7 @@ class ServerService : Service() {
             setShowBadge(false)
         }
       val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        nm.createNotificationChannel(channel)
+      nm.createNotificationChannel(channel)
     }
 
   private fun buildNotification(text: String): Notification {
@@ -156,7 +156,7 @@ class ServerService : Service() {
     return builder
             .setContentTitle(getString(R.string.app_name))
             .setContentText(text)
-            .setSmallIcon(android.R.drawable.ic_menu_share)
+            .setSmallIcon(R.drawable.ic_notification)
             .setOngoing(true)
             .setPriority(Notification.PRIORITY_LOW)
             .setContentIntent(openIntent)
