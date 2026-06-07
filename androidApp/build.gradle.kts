@@ -15,8 +15,8 @@ android {
         applicationId = "git.shin.rakuyomi_bridge"
         minSdk = 21
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = project.property("versionCode").toString().toInt()
+        versionName = project.property("versionName").toString()
     }
 
     buildTypes {
