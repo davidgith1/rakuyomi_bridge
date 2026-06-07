@@ -2,11 +2,11 @@ package git.shin.rakuyomi_bridge.util
 
 import android.app.DownloadManager
 import android.content.Context
-import android.net.Uri
 import android.os.Environment
 import android.webkit.URLUtil
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
+import androidx.core.net.toUri
 
 object Downloads {
 
@@ -20,15 +20,15 @@ object Downloads {
     if (url.isBlank() || !URLUtil.isValidUrl(url)) return null
     val resolvedMime = mimeType?.takeIf { it.isNotBlank() } ?: "application/octet-stream"
 
-    val request = DownloadManager.Request(Uri.parse(url)).apply {
+    val request = DownloadManager.Request(url.toUri()).apply {
       setMimeType(resolvedMime)
       addRequestHeader("User-Agent", userAgent)
       setDescription(url)
-      setTitle(guessFileName(url, contentDisposition, resolvedMime))
+      setTitle(guessFileName(url, contentDisposition))
       setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
       setDestinationInExternalPublicDir(
         Environment.DIRECTORY_DOWNLOADS,
-        guessFileName(url, contentDisposition, resolvedMime)
+        guessFileName(url, contentDisposition)
       )
     }
 
@@ -37,11 +37,12 @@ object Downloads {
     return try {
       manager.enqueue(request)
     } catch (e: Exception) {
+      print(e)
       null
     }
   }
 
-  private fun guessFileName(url: String, contentDisposition: String?, mimeType: String): String {
+  private fun guessFileName(url: String, contentDisposition: String?): String {
     val fromHeader = parseContentDisposition(contentDisposition)
     if (!fromHeader.isNullOrBlank()) return sanitize(fromHeader)
     val fromUrl = url.substringBefore('?').substringAfterLast('/')
@@ -56,6 +57,7 @@ object Downloads {
     return try {
       URLDecoder.decode(raw, "UTF-8")
     } catch (e: UnsupportedEncodingException) {
+      print(e)
       raw
     }
   }
