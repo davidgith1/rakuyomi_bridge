@@ -105,44 +105,8 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew :androidApp:assembleDebug
 
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        id: sign_app
-        with:
-          releaseDirectory: androidApp/build/outputs/apk/debug
-          signingKeyBase64: ${{ secrets.KEYSTORE_CONTENT }}
-          alias: ${{ secrets.KEYSTORE_ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: "35.0.0"
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-apk-signed
-          path: ${{ steps.sign_app.outputs.signedReleaseFile }}
-
       - name: Run Headless Lint
         run: ./gradlew :androidHeadless:lintDebug
 
       - name: Build Headless Debug APK
         run: ./gradlew :androidHeadless:assembleDebug
-
-      - name: Sign Headless APK
-        uses: r0adkll/sign-android-release@v1
-        id: sign_headless
-        with:
-          releaseDirectory: androidHeadless/build/outputs/apk/debug
-          signingKeyBase64: ${{ secrets.KEYSTORE_CONTENT }}
-          alias: ${{ secrets.KEYSTORE_ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: "35.0.0"
-
-      - name: Upload Headless APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-headless-apk-signed
-          path: ${{ steps.sign_headless.outputs.signedReleaseFile }}
