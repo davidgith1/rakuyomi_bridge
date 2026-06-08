@@ -32,6 +32,7 @@ jobs:
         with:
           repository: tachibana-shin/rakuyomi
           path: rakuyomi
+          ref: support-android
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
