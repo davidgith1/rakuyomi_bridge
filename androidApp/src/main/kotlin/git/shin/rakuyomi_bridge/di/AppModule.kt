@@ -58,7 +58,7 @@ object AppModule {
     @ApplicationContext context: Context,
     client: OkHttpClient,
     json: Json
-  ): UpdateManager = UpdateManager(context, client, json, BuildConfig.VERSION_NAME)
+  ): UpdateManager = UpdateManager(context, client, json, BuildConfig.VERSION_NAME, false)
 
   @Provides
   @Singleton

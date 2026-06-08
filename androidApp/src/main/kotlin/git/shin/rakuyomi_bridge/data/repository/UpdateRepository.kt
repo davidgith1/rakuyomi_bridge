@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Singleton
 class UpdateRepository @Inject constructor(
-  @ApplicationContext private val context: Context,
+  @param:ApplicationContext private val context: Context,
   private val updateManager: UpdateManager
 ) {
   private val _updateInfo = MutableStateFlow<UpdateInfo?>(null)
@@ -23,7 +23,7 @@ class UpdateRepository @Inject constructor(
   val lastResult: StateFlow<UpdateResult> = _lastResult.asStateFlow()
 
   suspend fun checkForUpdate(): UpdateResult {
-    return updateManager.checkForUpdate("rakuyomi-bridge-compose").fold(
+    return updateManager.checkForUpdate().fold(
       onSuccess = { info ->
         if (info.isNewer && info.downloadUrl.isNotEmpty()) {
           _updateInfo.value = info

@@ -283,7 +283,7 @@ class MainActivity : Activity() {
 
   private fun onCheckForUpdatesClicked() {
     scope.launch {
-      val result = app.updateManager.checkForUpdate("rakuyomi-bridge-headless")
+      val result = app.updateManager.checkForUpdate()
       withContext(Dispatchers.Main) {
         result.onSuccess { info ->
           if (info.isNewer) {

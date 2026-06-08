@@ -3,7 +3,6 @@ package git.shin.rakuyomi_bridge.headless
 import android.app.Application
 import git.shin.rakuyomi_bridge.RakuyomiServerAdapter
 import git.shin.rakuyomi_bridge.ServerConfig
-import git.shin.rakuyomi_bridge.headless.BuildConfig
 import git.shin.rakuyomi_bridge.headless.settings.SettingsStore
 import git.shin.rakuyomi_bridge.remote.UpdateManager
 import git.shin.rakuyomi_bridge.remote.WebViewCookieJar
@@ -45,7 +44,7 @@ class HeadlessApp : Application() {
       .cookieJar(WebViewCookieJar())
       .build()
     networkBridge = NetworkBridgeWorker(client)
-    updateManager = UpdateManager(this, client, json, BuildConfig.VERSION_NAME)
+    updateManager = UpdateManager(this, client, json, BuildConfig.VERSION_NAME, true)
   }
 
   companion object {
