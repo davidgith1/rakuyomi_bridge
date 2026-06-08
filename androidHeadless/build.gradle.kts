@@ -25,6 +25,12 @@ android {
     versionCode = project.property("versionCode").toString().toInt()
     versionName = project.property("versionName").toString()
 
+    buildConfigField(
+      "String",
+      "RELEASE_CERT_SHA256",
+      "\"${localProperties.getProperty("RELEASE_CERT_SHA256") ?: ""}\""
+    )
+
     // Share the .so files (librakuyomi_server.so) with the Compose app to
     // avoid duplicating the 50MB native payload. The set of supported ABIs
     // is defined by what the Rust server build script drops into

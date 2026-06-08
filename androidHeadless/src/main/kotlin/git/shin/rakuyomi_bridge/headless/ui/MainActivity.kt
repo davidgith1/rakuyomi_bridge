@@ -30,6 +30,7 @@ import git.shin.rakuyomi_bridge.ServerStatus
 import git.shin.rakuyomi_bridge.headless.HeadlessApp
 import git.shin.rakuyomi_bridge.headless.R
 import git.shin.rakuyomi_bridge.headless.service.ServerService
+import git.shin.rakuyomi_bridge.service.BaseServerService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -320,7 +321,7 @@ class MainActivity : Activity() {
 
   private fun startService() {
     val intent = Intent(this, ServerService::class.java).apply {
-      action = ServerService.ACTION_START
+      action = BaseServerService.ACTION_START
     }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       ContextCompat.startForegroundService(this, intent)
@@ -331,7 +332,7 @@ class MainActivity : Activity() {
 
   private fun stopService() {
     val intent = Intent(this, ServerService::class.java).apply {
-      action = ServerService.ACTION_STOP
+      action = BaseServerService.ACTION_STOP
     }
     startService(intent)
   }

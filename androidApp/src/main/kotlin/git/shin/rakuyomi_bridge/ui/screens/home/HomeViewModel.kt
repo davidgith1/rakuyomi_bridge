@@ -11,6 +11,7 @@ import git.shin.rakuyomi_bridge.ServerStatus
 import git.shin.rakuyomi_bridge.data.model.AppTheme
 import git.shin.rakuyomi_bridge.data.repository.SettingsRepository
 import git.shin.rakuyomi_bridge.data.repository.UpdateRepository
+import git.shin.rakuyomi_bridge.service.BaseServerService
 import git.shin.rakuyomi_bridge.service.ServerService
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -48,7 +49,7 @@ class HomeViewModel @Inject constructor(
 
   fun startServer(context: Context) {
     val intent = Intent(context, ServerService::class.java).apply {
-      action = ServerService.ACTION_START
+      action = BaseServerService.ACTION_START
     }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       context.startForegroundService(intent)
@@ -59,7 +60,7 @@ class HomeViewModel @Inject constructor(
 
   fun stopServer(context: Context) {
     context.startService(Intent(context, ServerService::class.java).apply {
-      action = ServerService.ACTION_STOP
+      action = BaseServerService.ACTION_STOP
     })
   }
 

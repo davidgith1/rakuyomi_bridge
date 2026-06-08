@@ -7,6 +7,7 @@ import git.shin.rakuyomi_bridge.headless.settings.SettingsStore
 import git.shin.rakuyomi_bridge.remote.UpdateManager
 import git.shin.rakuyomi_bridge.remote.WebViewCookieJar
 import git.shin.rakuyomi_bridge.service.NetworkBridgeWorker
+import git.shin.rakuyomi_bridge.util.AppIntegrityChecker
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
@@ -33,6 +34,7 @@ class HeadlessApp : Application() {
 
   override fun onCreate() {
     super.onCreate()
+    AppIntegrityChecker.checkIntegrity(this, BuildConfig.RELEASE_CERT_SHA256, BuildConfig.DEBUG)
 
     settings = SettingsStore(this)
 
