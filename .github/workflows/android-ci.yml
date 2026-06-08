@@ -31,6 +31,12 @@ jobs:
           ref: support-android
           path: rakuyomi
 
+      - name: Cache Rust Dependencies
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "rakuyomi -> backend -> target"
+          prefix-key: "rust-cache"
+
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -51,12 +57,6 @@ jobs:
             ~/.cargo/git
             rakuyomi/backend/target
           key: ${{ runner.os }}-cargo-${{ hashFiles('rakuyomi/backend/Cargo.lock') }}
-
-      - name: Upload plugin as workflow artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: rakuyomi-android-build
-          path: rakuyomi/build/rakuyomi-android.zip
 
       - uses: actions/setup-java@v4
         with:
