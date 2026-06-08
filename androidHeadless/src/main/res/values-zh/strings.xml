@@ -22,6 +22,20 @@
     <string name="select_folder">选择文件夹</string>
     <string name="data_dir_description">存储数据库、源和下载内容的目录。</string>
 
+    <string name="open_browser">打开浏览器</string>
+    <string name="koreader_hint">在 KOReader 中打开 Rakuyomi 插件也会在后台自动启动此应用。</string>
+    <string name="browser_hint">“浏览器”选项卡允许您浏览并登录您最喜爱的漫画网站。随后 Rakuyomi 即可代表您访问相关信息。</string>
+    <string name="about_title">关于</string>
+    <string name="about_description">Rakuyomi 是一个适用于 KOReader 的漫画阅读器插件。此应用程序充当在 Android 上运行 Rust 服务器的桥梁。</string>
+    <string name="support_dev">支持开发者</string>
+    <string name="ko_fi_link">ko-fi.com/tachib_shin</string>
+    <string name="source_code">源代码</string>
+    <string name="github_link">github.com/tachibana-shin/rakuyomi</string>
+    <string name="license_title">许可证</string>
+    <string name="license_name">GNU Affero General Public License v3.0</string>
+    <string name="copyright">© 2024 Tachibana Shin</string>
+    <string name="close">关闭</string>
+
     <string name="info_text">点击“启动”以运行 rakuyomi 服务器。通知会保持后台运行，使 KOReader 可以通过上方的 URL 连接到此桥接服务。</string>
 
     <string name="channel_name">Rakuyomi 服务器</string>

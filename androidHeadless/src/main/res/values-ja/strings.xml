@@ -22,6 +22,20 @@
     <string name="select_folder">フォルダを選択</string>
     <string name="data_dir_description">データベース、ソース、ダウンロード用のディレクトリ。</string>
 
+    <string name="open_browser">ブラウザを開く</string>
+    <string name="koreader_hint">KOReaderでRakuyomiプラグインを開くと、このアプリもバックグラウンドで自動的に起動します。</string>
+    <string name="browser_hint">「ブラウザ」タブでは、お気に入りのマンガサイトを閲覧したりログインしたりできます。これにより、Rakuyomiがユーザーに代わって情報にアクセスできるようになります。</string>
+    <string name="about_title">について</string>
+    <string name="about_description">RakuyomiはKOReader用のマンガリーダープラグインです。このアプリは、Android上でRustサーバーを実行するためのブリッジとして機能します。</string>
+    <string name="support_dev">開発者をサポート</string>
+    <string name="ko_fi_link">ko-fi.com/tachib_shin</string>
+    <string name="source_code">ソースコード</string>
+    <string name="github_link">github.com/tachibana-shin/rakuyomi</string>
+    <string name="license_title">ライセンス</string>
+    <string name="license_name">GNU Affero General Public License v3.0</string>
+    <string name="copyright">© 2024 Tachibana Shin</string>
+    <string name="close">閉じる</string>
+
     <string name="info_text">「開始」をタップしてrakuyomiサーバーを起動してください。通知によってバックグラウンドで動作し続けるため、KOReaderは上記のURLでブリッジに接続できます。</string>
 
     <string name="channel_name">Rakuyomiサーバー</string>

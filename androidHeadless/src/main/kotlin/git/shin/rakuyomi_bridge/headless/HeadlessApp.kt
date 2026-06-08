@@ -5,6 +5,7 @@ import git.shin.rakuyomi_bridge.RakuyomiServerAdapter
 import git.shin.rakuyomi_bridge.ServerConfig
 import git.shin.rakuyomi_bridge.headless.service.NetworkBridgeWorker
 import git.shin.rakuyomi_bridge.headless.settings.SettingsStore
+import git.shin.rakuyomi_bridge.remote.WebViewCookieJar
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
@@ -29,7 +30,10 @@ class HeadlessApp : Application() {
     val config = ServerConfig(homePath = homePath)
     server = RakuyomiServerAdapter(config)
 
-    networkBridge = NetworkBridgeWorker(OkHttpClient.Builder().build())
+    val client = OkHttpClient.Builder()
+      .cookieJar(WebViewCookieJar())
+      .build()
+    networkBridge = NetworkBridgeWorker(client)
   }
 
   companion object {

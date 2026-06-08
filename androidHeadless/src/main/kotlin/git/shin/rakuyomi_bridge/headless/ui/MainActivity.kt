@@ -167,9 +167,44 @@ class MainActivity : Activity() {
       setOnClickListener { onSelectFolderClicked() }
     }
     root.addView(selectFolderButton)
+    root.addView(spacer(gap))
+
+    val openBrowserButton = Button(this).apply {
+      text = getString(R.string.open_browser)
+      setOnClickListener { startActivity(Intent(this@MainActivity, BrowserActivity::class.java)) }
+    }
+    root.addView(openBrowserButton)
+    root.addView(spacer(gap))
+
+    val aboutButton = Button(this).apply {
+      text = getString(R.string.about_title)
+      setOnClickListener { startActivity(Intent(this@MainActivity, AboutActivity::class.java)) }
+    }
+    root.addView(aboutButton)
     root.addView(spacer(gap * 2))
 
     root.addView(makeInfoText())
+    root.addView(spacer(gap))
+
+    val koreaderHint = TextView(this).apply {
+      text = getString(R.string.koreader_hint)
+      setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+      setTextColor("#1565C0".toColorInt())
+      setTypeface(typeface, android.graphics.Typeface.BOLD)
+      gravity = Gravity.CENTER_HORIZONTAL
+    }
+    root.addView(koreaderHint)
+    root.addView(spacer(gap))
+
+    val browserHint = TextView(this).apply {
+      text = getString(R.string.browser_hint)
+      setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+      setTextColor("#546E7A".toColorInt())
+      setTypeface(typeface, android.graphics.Typeface.BOLD)
+      gravity = Gravity.CENTER_HORIZONTAL
+    }
+    root.addView(browserHint)
+
     return root
   }
 

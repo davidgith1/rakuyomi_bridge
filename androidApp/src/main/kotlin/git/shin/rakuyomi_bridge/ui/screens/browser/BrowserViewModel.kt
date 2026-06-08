@@ -177,7 +177,10 @@ class BrowserViewModel @Inject constructor(
   }
 
   fun loadUrl(input: String) {
-    val target = UrlUtils.normalize(input)
+    var target = UrlUtils.normalize(input)
+    if (target.startsWith("http") == false && input.isNotBlank()) {
+      target = "https://www.google.com/search?q=${java.net.URLEncoder.encode(input, "UTF-8")}"
+    }
     _addressBarText.value = target
     webView.loadUrl(target)
   }

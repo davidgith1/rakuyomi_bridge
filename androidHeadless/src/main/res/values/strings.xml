@@ -25,6 +25,20 @@
     <string name="select_folder">Select Folder</string>
     <string name="data_dir_description">Directory for database, sources, and downloads.</string>
 
+    <string name="open_browser">Open Browser</string>
+    <string name="koreader_hint">Opening the Rakuyomi plugin in KOReader will also start this app automatically in the background.</string>
+    <string name="browser_hint">The Browser tab allows you to browse and log in to your favorite manga sites. Rakuyomi can then access information on your behalf.</string>
+    <string name="about_title">About</string>
+    <string name="about_description">Rakuyomi is a manga reader plugin for KOReader. This app acts as a bridge to run the Rust server on Android.</string>
+    <string name="support_dev">Support Developer</string>
+    <string name="ko_fi_link">ko-fi.com/tachib_shin</string>
+    <string name="source_code">Source Code</string>
+    <string name="github_link">github.com/tachibana-shin/rakuyomi</string>
+    <string name="license_title">License</string>
+    <string name="license_name">GNU Affero General Public License v3.0</string>
+    <string name="copyright">© 2024 Tachibana Shin</string>
+    <string name="close">Close</string>
+
     <!-- Info text shown below the buttons -->
     <string name="info_text">Tap Start to launch the rakuyomi server. The notification keeps it alive in the background, so KOReader can reach the bridge at the URL above.</string>
 
