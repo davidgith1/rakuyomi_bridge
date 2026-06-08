@@ -13,11 +13,6 @@ jobs:
   ci:
     uses: ./.github/workflows/android-ci.yml
     secrets:
-      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-      GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES }}
-      GOOGLE_SERVICES_DEV: ${{ secrets.GOOGLE_SERVICES_DEV }}
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
       KEYSTORE_CONTENT: ${{ secrets.KEYSTORE_CONTENT }}
       KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
       KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -26,12 +21,43 @@ jobs:
     needs: ci
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout bridge code
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          token: ${{ secrets.PAT_TOKEN }}
           fetch-depth: 0
+
+      - name: Clone RakuYomi
+        uses: actions/checkout@v4
+        with:
+          repository: tachibana-shin/rakuyomi
+          path: rakuyomi
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.95.0
+          targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android
+
+      - name: Install cargo-ndk
+        run: cargo install cargo-ndk
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y pkg-config libfontconfig1-dev libfreetype6-dev
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            rakuyomi/backend/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('rakuyomi/backend/Cargo.lock') }}
+
+      - name: Build Rust Android libraries (all targets)
+        env:
+          BRIDGE_DIR: ${{ github.workspace }}
+        run: bash rakuyomi/scripts/build-rust-android.sh
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -47,17 +73,6 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
-      - name: Write local.properties
-        env:
-          URL: ${{ secrets.SUPABASE_URL }}
-          KEY: ${{ secrets.SUPABASE_KEY }}
-          PASSWORD_UNLOCK_DEVELOPER: ${{ secrets.PASSWORD_UNLOCK_DEVELOPER }}
-          KEYSTORE_CONTENT: ${{ secrets.KEYSTORE_CONTENT }}
-          KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        run: |
-          printf '\nSUPABASE_URL=%s\nSUPABASE_KEY=%s\nPASSWORD_UNLOCK_DEVELOPER=%s\n' "$URL" "$KEY" "$PASSWORD_UNLOCK_DEVELOPER" >> local.properties
 
       - name: Compute release cert SHA-256
         env:
@@ -83,10 +98,10 @@ jobs:
       - name: Get next version
         id: semantic
         uses: cycjimmy/semantic-release-action@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           dry_run: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update Gradle Version
         if: steps.semantic.outputs.new_release_published == 'true'
