@@ -1,4 +1,4 @@
-package git.shin.rakuyomi_bridge.data.model
+package git.shin.rakuyomi_bridge.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

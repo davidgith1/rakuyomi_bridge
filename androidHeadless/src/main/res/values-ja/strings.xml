@@ -42,4 +42,16 @@
     <string name="channel_description">rakuyomiバックグラウンドサーバーの通知</string>
     <string name="notification_text_starting">サーバーを起動中…</string>
     <string name="notification_text_running">サーバーがポート %d で実行中</string>
+
+    <!-- Updates -->
+    <string name="update_section_title">アップデート</string>
+    <string name="check_for_updates">アップデートを確認</string>
+    <string name="update_current_version">現在のバージョン: %1$s</string>
+    <string name="update_available">新しいバージョンが利用可能です</string>
+    <string name="update_message">新しいバージョン (%1$s) が利用可能です。今すぐアップデートしますか？</string>
+    <string name="update_now">今すぐアップデート</string>
+    <string name="update_no_update">最新バージョンを使用しています</string>
+    <string name="update_check_failed">アップデートの確認に失敗しました: %1$s</string>
+    <string name="update_downloading_title">Rakuyomi Bridgeのアップデートをダウンロード中</string>
+    <string name="update_downloading_description">新しいバージョンをダウンロードしています…</string>
 </resources>

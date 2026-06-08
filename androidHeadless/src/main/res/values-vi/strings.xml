@@ -42,4 +42,16 @@
     <string name="channel_description">Thông báo cho máy chủ nền rakuyomi</string>
     <string name="notification_text_starting">Đang khởi động máy chủ…</string>
     <string name="notification_text_running">Máy chủ đang chạy trên cổng %d</string>
+
+    <!-- Updates -->
+    <string name="update_section_title">Cập nhật</string>
+    <string name="check_for_updates">Kiểm tra cập nhật</string>
+    <string name="update_current_version">Phiên bản hiện tại: %1$s</string>
+    <string name="update_available">Có phiên bản mới</string>
+    <string name="update_message">Một phiên bản mới (%1$s) đã có sẵn. Bạn có muốn cập nhật ngay bây giờ không?</string>
+    <string name="update_now">Cập nhật ngay</string>
+    <string name="update_no_update">Bạn đang sử dụng phiên bản mới nhất</string>
+    <string name="update_check_failed">Không thể kiểm tra cập nhật: %1$s</string>
+    <string name="update_downloading_title">Đang tải xuống bản cập nhật Rakuyomi Bridge</string>
+    <string name="update_downloading_description">Phiên bản mới đang được tải xuống…</string>
 </resources>

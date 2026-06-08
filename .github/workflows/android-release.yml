@@ -154,6 +154,7 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "35.0.0"
 
+      - run: mv androidHeadless/build/outputs/apk/release/app-release-unsigned-signed.apk androidHeadless/build/outputs/apk/release/headless-app-release-unsigned-signed.apk && mv androidHeadless/build/outputs/apk/release/app-release.aab androidHeadless/build/outputs/apk/release/headless-app-release.aab
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

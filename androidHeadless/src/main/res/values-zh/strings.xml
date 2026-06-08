@@ -42,4 +42,16 @@
     <string name="channel_description">rakuyomi 后台服务器的通知</string>
     <string name="notification_text_starting">正在启动服务器…</string>
     <string name="notification_text_running">服务器正在端口 %d 上运行</string>
+
+    <!-- Updates -->
+    <string name="update_section_title">更新</string>
+    <string name="check_for_updates">检查更新</string>
+    <string name="update_current_version">当前版本: %1$s</string>
+    <string name="update_available">有新版本可用</string>
+    <string name="update_message">新版本 (%1$s) 已发布。是否立即更新？</string>
+    <string name="update_now">立即更新</string>
+    <string name="update_no_update">您已是最新版本</string>
+    <string name="update_check_failed">检查更新失败: %1$s</string>
+    <string name="update_downloading_title">正在下载 Rakuyomi Bridge 更新</string>
+    <string name="update_downloading_description">正在下载新版本…</string>
 </resources>

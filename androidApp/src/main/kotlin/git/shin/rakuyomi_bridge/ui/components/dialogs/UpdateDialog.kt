@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.jeziellago.compose.markdowntext.MarkdownText
 import git.shin.rakuyomi_bridge.R
-import git.shin.rakuyomi_bridge.data.model.UpdateInfo
+import git.shin.rakuyomi_bridge.model.UpdateInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

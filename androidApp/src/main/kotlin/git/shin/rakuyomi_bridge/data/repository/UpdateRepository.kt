@@ -1,7 +1,10 @@
 package git.shin.rakuyomi_bridge.data.repository
 
-import git.shin.rakuyomi_bridge.data.model.UpdateInfo
-import git.shin.rakuyomi_bridge.data.remote.UpdateManager
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
+import git.shin.rakuyomi_bridge.R
+import git.shin.rakuyomi_bridge.model.UpdateInfo
+import git.shin.rakuyomi_bridge.remote.UpdateManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,6 +13,7 @@ import javax.inject.Singleton
 
 @Singleton
 class UpdateRepository @Inject constructor(
+  @ApplicationContext private val context: Context,
   private val updateManager: UpdateManager
 ) {
   private val _updateInfo = MutableStateFlow<UpdateInfo?>(null)
@@ -19,7 +23,7 @@ class UpdateRepository @Inject constructor(
   val lastResult: StateFlow<UpdateResult> = _lastResult.asStateFlow()
 
   suspend fun checkForUpdate(): UpdateResult {
-    return updateManager.checkForUpdate().fold(
+    return updateManager.checkForUpdate("rakuyomi-bridge-compose").fold(
       onSuccess = { info ->
         if (info.isNewer && info.downloadUrl.isNotEmpty()) {
           _updateInfo.value = info
@@ -46,7 +50,9 @@ class UpdateRepository @Inject constructor(
   fun downloadAndInstall(info: UpdateInfo) {
     updateManager.downloadAndInstall(
       info.downloadUrl,
-      "RakuyomiBridge_v${info.version}.apk"
+      "RakuyomiBridge_v${info.version}.apk",
+      context.getString(R.string.update_downloading_title),
+      context.getString(R.string.update_downloading_description)
     )
     dismissUpdate()
   }

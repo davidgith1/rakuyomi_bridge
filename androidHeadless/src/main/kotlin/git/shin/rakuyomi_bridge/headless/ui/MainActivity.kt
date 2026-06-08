@@ -181,6 +181,13 @@ class MainActivity : Activity() {
       setOnClickListener { startActivity(Intent(this@MainActivity, AboutActivity::class.java)) }
     }
     root.addView(aboutButton)
+    root.addView(spacer(gap))
+
+    val updateButton = Button(this).apply {
+      text = getString(R.string.check_for_updates)
+      setOnClickListener { onCheckForUpdatesClicked() }
+    }
+    root.addView(updateButton)
     root.addView(spacer(gap * 2))
 
     root.addView(makeInfoText())
@@ -272,6 +279,43 @@ class MainActivity : Activity() {
     } else {
       startService()
     }
+  }
+
+  private fun onCheckForUpdatesClicked() {
+    scope.launch {
+      val result = app.updateManager.checkForUpdate("rakuyomi-bridge-headless")
+      withContext(Dispatchers.Main) {
+        result.onSuccess { info ->
+          if (info.isNewer) {
+            showUpdateDialog(info)
+          } else {
+            Toast.makeText(this@MainActivity, R.string.update_no_update, Toast.LENGTH_SHORT).show()
+          }
+        }.onFailure { e ->
+          Toast.makeText(
+            this@MainActivity,
+            getString(R.string.update_check_failed, e.message),
+            Toast.LENGTH_LONG
+          ).show()
+        }
+      }
+    }
+  }
+
+  private fun showUpdateDialog(info: git.shin.rakuyomi_bridge.model.UpdateInfo) {
+    AlertDialog.Builder(this)
+      .setTitle(R.string.update_available)
+      .setMessage(getString(R.string.update_message, info.version) + "\n\n" + info.description)
+      .setPositiveButton(R.string.update_now) { _, _ ->
+        app.updateManager.downloadAndInstall(
+          info.downloadUrl,
+          "RakuyomiHeadless_v${info.version}.apk",
+          getString(R.string.update_downloading_title),
+          getString(R.string.update_downloading_description)
+        )
+      }
+      .setNegativeButton(android.R.string.cancel, null)
+      .show()
   }
 
   private fun startService() {

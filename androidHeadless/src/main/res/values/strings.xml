@@ -47,4 +47,16 @@
     <string name="channel_description">Notification for the rakuyomi background server</string>
     <string name="notification_text_starting">Starting server…</string>
     <string name="notification_text_running">Server running on port %d</string>
+
+    <!-- Updates -->
+    <string name="update_section_title">Updates</string>
+    <string name="check_for_updates">Check for updates</string>
+    <string name="update_current_version">Current version: %1$s</string>
+    <string name="update_available">New Version Available</string>
+    <string name="update_message">A new version (%1$s) is available. Would you like to update now?</string>
+    <string name="update_now">Update Now</string>
+    <string name="update_no_update">You are on the latest version</string>
+    <string name="update_check_failed">Failed to check for updates: %1$s</string>
+    <string name="update_downloading_title">Downloading Rakuyomi Bridge update</string>
+    <string name="update_downloading_description">New version is being downloaded…</string>
 </resources>

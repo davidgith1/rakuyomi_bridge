@@ -15,6 +15,7 @@ import git.shin.rakuyomi_bridge.MainActivity
 import git.shin.rakuyomi_bridge.R
 import git.shin.rakuyomi_bridge.RakuyomiServerAdapter
 import git.shin.rakuyomi_bridge.data.repository.SettingsRepository
+import git.shin.rakuyomi_bridge.service.NetworkBridgeWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

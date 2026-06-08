@@ -1,12 +1,12 @@
-package git.shin.rakuyomi_bridge.headless.service
+package git.shin.rakuyomi_bridge.service
 
 import android.util.Log
 import git.shin.rakuyomi_bridge.RakuyomiServer
+import git.shin.rakuyomi_bridge.model.BridgeRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
@@ -18,39 +18,6 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.Response
 import java.io.IOException
-
-@Serializable
-data class BridgeRequest(
-  val id: Long,
-  val url: String,
-  val method: String,
-  val headers: Map<String, String>,
-  val body: ByteArray? = null
-) {
-  override fun equals(other: Any?): Boolean {
-    if (this === other) return true
-    if (javaClass != other?.javaClass) return false
-
-    other as BridgeRequest
-
-    if (id != other.id) return false
-    if (url != other.url) return false
-    if (method != other.method) return false
-    if (headers != other.headers) return false
-    if (!body.contentEquals(other.body)) return false
-
-    return true
-  }
-
-  override fun hashCode(): Int {
-    var result = id.hashCode()
-    result = 31 * result + url.hashCode()
-    result = 31 * result + method.hashCode()
-    result = 31 * result + headers.hashCode()
-    result = 31 * result + (body?.contentHashCode() ?: 0)
-    return result
-  }
-}
 
 class NetworkBridgeWorker(private val client: OkHttpClient) {
   private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
@@ -126,6 +93,6 @@ class NetworkBridgeWorker(private val client: OkHttpClient) {
   }
 
   companion object {
-    private const val TAG = "HeadlessNetBridge"
+    private const val TAG = "NetworkBridgeWorker"
   }
 }

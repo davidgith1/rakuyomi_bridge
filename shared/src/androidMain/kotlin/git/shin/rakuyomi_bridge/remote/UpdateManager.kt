@@ -1,4 +1,4 @@
-package git.shin.rakuyomi_bridge.data.remote
+package git.shin.rakuyomi_bridge.remote
 
 import android.app.DownloadManager
 import android.content.BroadcastReceiver
@@ -7,26 +7,23 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Environment
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import dagger.hilt.android.qualifiers.ApplicationContext
-import git.shin.rakuyomi_bridge.BuildConfig
-import git.shin.rakuyomi_bridge.data.model.GitHubRelease
-import git.shin.rakuyomi_bridge.data.model.UpdateInfo
+import git.shin.rakuyomi_bridge.model.GitHubRelease
+import git.shin.rakuyomi_bridge.model.UpdateInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
-import javax.inject.Inject
-import javax.inject.Singleton
+import androidx.core.net.toUri
 
-@Singleton
-class UpdateManager @Inject constructor(
-  @ApplicationContext private val context: Context,
+class UpdateManager(
+  private val context: Context,
   private val client: OkHttpClient,
-  private val json: Json
+  private val json: Json,
+  private val currentVersionName: String,
+  private val headless: Boolean
 ) {
   private val githubRepo = "tachibana-shin/rakuyomi_bridge"
 
@@ -39,10 +36,10 @@ class UpdateManager @Inject constructor(
 
       client.newCall(request).execute().use { res ->
         if (!res.isSuccessful) {
-          return@use Result.failure(Exception("Failed to fetch release: ${res.code}"))
+          return@use Result.failure(Exception("Failed to fetch release: ${res.code()}"))
         }
 
-        val body = res.body?.string().orEmpty()
+        val body = res.body()?.string().orEmpty()
         if (body.isEmpty()) {
           return@use Result.failure(Exception("Empty response body"))
         }
@@ -51,8 +48,8 @@ class UpdateManager @Inject constructor(
         val latestVersion = release.tagName.removePrefix("v")
 
         val isNewer = isVersionNewer(latestVersion)
-        val apkAsset = release.assets.find { it.name == "app-release-signed.apk" }
-          ?: release.assets.find { it.name.endsWith(".apk") }
+
+        val apkAsset = release.assets.find { it.name.endsWith(".apk") && (if (headless) it.name.startsWith("headless") else true) }
 
         Result.success(
           UpdateInfo(
@@ -70,7 +67,7 @@ class UpdateManager @Inject constructor(
 
   private fun isVersionNewer(latest: String): Boolean {
     val latestParts = latest.split(".").mapNotNull { it.toIntOrNull() }
-    val currentParts = BuildConfig.VERSION_NAME.split(".").mapNotNull { it.toIntOrNull() }
+    val currentParts = currentVersionName.split(".").mapNotNull { it.toIntOrNull() }
 
     for (i in 0 until minOf(latestParts.size, currentParts.size)) {
       if (latestParts[i] > currentParts[i]) return true
@@ -79,7 +76,7 @@ class UpdateManager @Inject constructor(
     return latestParts.size > currentParts.size
   }
 
-  fun downloadAndInstall(url: String, fileName: String) {
+  fun downloadAndInstall(url: String, fileName: String, title: String, description: String) {
     if (url.isEmpty()) return
 
     val destination = File(
@@ -88,9 +85,9 @@ class UpdateManager @Inject constructor(
     )
     if (destination.exists()) destination.delete()
 
-    val request = DownloadManager.Request(Uri.parse(url))
-      .setTitle(context.getString(git.shin.rakuyomi_bridge.R.string.update_downloading_title))
-      .setDescription(context.getString(git.shin.rakuyomi_bridge.R.string.update_downloading_description))
+    val request = DownloadManager.Request(url.toUri())
+      .setTitle(title)
+      .setDescription(description)
       .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
       .setDestinationUri(Uri.fromFile(destination))
       .setAllowedOverMetered(true)
@@ -113,12 +110,11 @@ class UpdateManager @Inject constructor(
     }
 
     val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-    ContextCompat.registerReceiver(
-      context,
-      onComplete,
-      filter,
-      ContextCompat.RECEIVER_EXPORTED
-    )
+    if (android.os.Build.VERSION.SDK_INT >= 33) { // TIRAMISU
+      context.registerReceiver(onComplete, filter, Context.RECEIVER_EXPORTED)
+    } else {
+      context.registerReceiver(onComplete, filter)
+    }
   }
 
   private fun installApk(file: File) {

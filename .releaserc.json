@@ -20,19 +20,19 @@
         "assets": [
           {
             "path": "androidApp/build/outputs/bundle/release/*-signed.aab",
-            "label": "Android App Bundle"
+            "label": "Rakuyomi Bridge (Compose) Bundle"
           },
           {
             "path": "androidApp/build/outputs/apk/release/*-signed.apk",
-            "label": "Android APK"
+            "label": "Rakuyomi Bridge (Compose) APK"
           },
           {
             "path": "androidHeadless/build/outputs/bundle/release/*-signed.aab",
-            "label": "Android Headless App Bundle"
+            "label": "Rakuyomi Bridge (Headless) Bundle"
           },
           {
             "path": "androidHeadless/build/outputs/apk/release/*-signed.apk",
-            "label": "Android Headless APK"
+            "label": "Rakuyomi Bridge (Headless) APK"
           }
         ]
       }
