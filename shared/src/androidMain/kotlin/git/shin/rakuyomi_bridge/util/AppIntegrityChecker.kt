@@ -1,4 +1,4 @@
-package git.shin.rakuyomi_bridge
+package git.shin.rakuyomi_bridge.util
 
 import android.content.Context
 import android.content.pm.PackageManager
@@ -9,10 +9,9 @@ import kotlin.system.exitProcess
 
 object AppIntegrityChecker {
 
-  fun checkIntegrity(context: Context) {
-    if (BuildConfig.DEBUG) return
+  fun checkIntegrity(context: Context, expectedSha256: String, isDebug: Boolean) {
+    if (isDebug) return
 
-    val expectedSha256 = BuildConfig.RELEASE_CERT_SHA256
     if (expectedSha256.isEmpty()) {
       return
     }
