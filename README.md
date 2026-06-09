@@ -8,6 +8,11 @@ Loads `librakuyomi_server.so` (Rust HTTP server from the rakuyomi monorepo) via 
 
 Download the latest APK from [GitHub Releases](https://github.com/tachibana-shin/rakuyomi_bridge/releases). Two variants are available:
 
+| Application | Support |
+| --- | --- |
+| Rakuyomi Bridge | Android `5+` (v8 and x86_64) |
+| Rakuyomi Bridge Headless | Android `4.3+` (v8 and v7 and x86_64) |
+
 - **`RakuYomiBridge`** -- Compose app (Android 5.0+)
 - **`RakuYomiBridge Headless`** -- Headless app (Android 4.3+)
 
