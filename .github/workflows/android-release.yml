@@ -195,9 +195,8 @@ jobs:
           keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
         env:
           BUILD_TOOLS_VERSION: "35.0.0"
-      - run: ls androidHeadless/build/outputs/apk/release
 
-      - run: mv androidHeadless/build/outputs/apk/release/app-release-unsigned-signed.apk androidHeadless/build/outputs/apk/release/headless-app-release-unsigned-signed.apk && mv androidHeadless/build/outputs/apk/release/app-release.aab androidHeadless/build/outputs/apk/release/headless-app-release.aab
+      - run: mv androidHeadless/build/outputs/bundle/release/androidHeadless-release.aab androidHeadless/build/outputs/bundle/release/headless-release.aab && mv androidHeadless/build/outputs/apk/release/androidHeadless-release-unsigned.apk androidHeadless/build/outputs/apk/release/headless-release-unsigned.apk
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
