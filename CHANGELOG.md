@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/tachibana-shin/rakuyomi_bridge/compare/v1.0.0...v1.0.1) (2026-06-11)
+
+
+### Bug Fixes
+
+* missing .so in outpuy ([6537467](https://github.com/tachibana-shin/rakuyomi_bridge/commit/65374672795bd884173fca1c2933539ba2f69459))
+
 # 1.0.0 (2026-06-09)
 
 
