@@ -41,6 +41,12 @@ android {
     )
   }
 
+  packaging {
+    resources {
+      pickFirsts.add("lib/**/librakuyomi_server.so")
+    }
+  }
+
   buildTypes {
     release {
       isMinifyEnabled = false
