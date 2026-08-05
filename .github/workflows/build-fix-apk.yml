@@ -1,0 +1,79 @@
+name: Build Fix APK (debug)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout bridge code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Clone RakuYomi (patched fork/branch)
+        uses: actions/checkout@v4
+        with:
+          repository: davidgith1/rakuyomi
+          ref: worktree-fix-bridge-stale-server-state
+          path: rakuyomi
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.95.0
+          targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android
+
+      - name: Install cargo-ndk
+        run: cargo install cargo-ndk
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y pkg-config libfontconfig1-dev libfreetype6-dev
+
+      - name: Cache Rust Dependencies
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "rakuyomi -> backend -> target"
+          prefix-key: "rust-cache"
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install Android NDK (r23b)
+        run: sdkmanager "ndk;23.1.7779620"
+
+      - name: Configure NDK
+        run: |
+          echo "ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/23.1.7779620" >> $GITHUB_ENV
+          echo "ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/23.1.7779620" >> $GITHUB_ENV
+          echo "$ANDROID_SDK_ROOT/ndk/23.1.7779620/toolchains/llvm/prebuilt/linux-x86_64/bin" >> $GITHUB_PATH
+
+      - name: Build Rust Android libraries (dev mode, arm64 only)
+        run: bash rakuyomi/scripts/build-rust-android.sh dev
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Write local.properties
+        run: echo "RELEASE_CERT_SHA256=" >> local.properties
+
+      - name: Build Debug APK
+        run: ./gradlew :androidApp:assembleDebug
+
+      - name: Build Headless Debug APK
+        run: ./gradlew :androidHeadless:assembleDebug
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: rakuyomi-bridge-debug-apks
+          path: |
+            androidApp/build/outputs/apk/debug/*.apk
+            androidHeadless/build/outputs/apk/debug/*.apk
+          retention-days: 14
