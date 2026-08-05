@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
+import android.util.Log
 import git.shin.rakuyomi_bridge.DEFAULT_SERVER_PORT
 import git.shin.rakuyomi_bridge.RakuyomiServerAdapter
 import kotlinx.coroutines.CoroutineScope
@@ -92,12 +93,17 @@ abstract class BaseServerService : Service() {
 
     scope.launch {
       try {
+        Log.e("RakDiag", "startServer: coroutine launched, resolving home path")
         val homePath = getHomePath()
+        Log.e("RakDiag", "startServer: homePath=$homePath, starting networkBridgeWorker")
         networkBridgeWorker.start()
+        Log.e("RakDiag", "startServer: calling server.start()")
         server.start(homePath)
+        Log.e("RakDiag", "startServer: server.start() returned, status=${server.status.value}")
         val runningText = getStringResource("notification_text_running", DEFAULT_SERVER_PORT)
         updateNotification(runningText)
       } catch (e: Exception) {
+        Log.e("RakDiag", "startServer: FAILED with exception", e)
         e.printStackTrace()
         stopSelf()
       }
