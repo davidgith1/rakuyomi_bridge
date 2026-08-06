@@ -92,7 +92,7 @@ fun HomeScreen(
     contract = ActivityResultContracts.RequestPermission()
   ) { granted ->
     if (granted) {
-      if (hasStoragePermission()) {
+      if (hasStoragePermission(context)) {
         viewModel.startServer(context)
       } else {
         showStorageDialog = true
@@ -110,10 +110,28 @@ fun HomeScreen(
     contract = ActivityResultContracts.StartActivityForResult()
   ) { /* result checked in onResume */ }
 
+  val legacyStoragePermissionLauncher = rememberLauncherForActivityResult(
+    contract = ActivityResultContracts.RequestMultiplePermissions()
+  ) { results ->
+    if (results.values.all { it }) {
+      if (hasNotificationPermission(context)) {
+        viewModel.startServer(context)
+      } else {
+        showNotificationDialog = true
+      }
+    } else {
+      Toast.makeText(
+        context,
+        context.getString(R.string.storage_denied),
+        Toast.LENGTH_SHORT
+      ).show()
+    }
+  }
+
   // -- Permission logic --
 
   fun onPermissionsChecked() {
-    if (hasNotificationPermission(context) && hasStoragePermission()) {
+    if (hasNotificationPermission(context) && hasStoragePermission(context)) {
       viewModel.startServer(context)
     }
   }
@@ -213,7 +231,7 @@ fun HomeScreen(
         } else {
           if (!hasNotificationPermission(context)) {
             showNotificationDialog = true
-          } else if (!hasStoragePermission()) {
+          } else if (!hasStoragePermission(context)) {
             showStorageDialog = true
           } else {
             viewModel.startServer(context)
@@ -278,7 +296,15 @@ fun HomeScreen(
     AlertDialog(
       onDismissRequest = { showStorageDialog = false },
       title = { Text(context.getString(R.string.storage_title)) },
-      text = { Text(context.getString(R.string.storage_message)) },
+      text = {
+        Text(
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            context.getString(R.string.storage_message)
+          } else {
+            context.getString(R.string.storage_message_legacy)
+          }
+        )
+      },
       confirmButton = {
         TextButton(onClick = {
           showStorageDialog = false
@@ -288,9 +314,22 @@ fun HomeScreen(
                 data = "package:${context.packageName}".toUri()
               }
             )
+          } else {
+            legacyStoragePermissionLauncher.launch(
+              arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+              )
+            )
           }
         }) {
-          Text(context.getString(R.string.storage_go_to_settings))
+          Text(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+              context.getString(R.string.storage_go_to_settings)
+            } else {
+              context.getString(R.string.storage_allow)
+            }
+          )
         }
       },
       dismissButton = {
@@ -332,7 +371,13 @@ private fun hasNotificationPermission(context: Context): Boolean {
   ) == PackageManager.PERMISSION_GRANTED
 }
 
-private fun hasStoragePermission(): Boolean {
-  if (Build.VERSION.SDK_INT < 30) return true
-  return Environment.isExternalStorageManager()
+private fun hasStoragePermission(context: Context): Boolean {
+  return when {
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> Environment.isExternalStorageManager()
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ->
+      ContextCompat.checkSelfPermission(
+        context, Manifest.permission.WRITE_EXTERNAL_STORAGE
+      ) == PackageManager.PERMISSION_GRANTED
+    else -> true
+  }
 }

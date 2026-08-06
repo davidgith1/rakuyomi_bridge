@@ -21,6 +21,8 @@
     <string name="storage_title">Storage access required</string>
     <string name="storage_message">Rakuyomi Bridge needs access to manage all files on your device so it can read / write manga data in the shared KOReader folder at /storage/emulated/0/koreader/rakuyomi.\n\nYou will be taken to Settings. Tap the toggle to grant \"Allow access to manage all files\", then press Back.</string>
     <string name="storage_go_to_settings">Go to Settings</string>
+    <string name="storage_allow">Allow</string>
+    <string name="storage_message_legacy">Rakuyomi Bridge needs storage access so it can read / write manga data in the shared KOReader folder at /storage/emulated/0/koreader/rakuyomi.\n\nTap Allow when prompted.</string>
     <string name="cancel">Cancel</string>
 
     <string name="notification_title">Notification permission</string>
@@ -28,6 +30,7 @@
     <string name="ok">OK</string>
 
     <string name="notification_denied">Notification permission denied.</string>
+    <string name="storage_denied">Storage permission denied.</string>
 
     <string name="logs_title">Logs</string>
     <string name="clear_logs">Clear Logs</string>
