@@ -61,6 +61,25 @@ scripts/build-rust-android.sh
 
 Requires Rust 1.95.0 with Android targets (`aarch64-linux-android`, `armv7-linux-androideabi`, `x86_64-linux-android`) and `cargo-ndk`.
 
+### Building a debug APK from a patched `rakuyomi` branch (CI)
+
+`.github/workflows/build-fix-apk.yml` (`workflow_dispatch`, on the `stable-debug-keystore` branch) clones a chosen `rakuyomi` branch, cross-compiles the Rust `.so` for it, and builds both debug APKs as workflow artifacts -- useful for validating a rakuyomi-side fix on-device before it lands upstream:
+
+```sh
+gh workflow run build-fix-apk.yml --repo davidgith1/rakuyomi_bridge --ref stable-debug-keystore
+```
+
+Edit the `ref:` under the "Clone RakuYomi" step to point at a different `rakuyomi` branch.
+
+## Development Branches
+
+`main` only carries stable, reviewed history. A few narrowly-scoped branches exist for one-off tasks and are not meant to be merged directly -- delete a branch once its purpose is served instead:
+
+- **`ci-build-workflow`** -- adds `build-fix-apk.yml` (see above).
+- **`stable-debug-keystore`** -- stacked on `ci-build-workflow`; installs a stable debug keystore from the `DEBUG_KEYSTORE_CONTENT` repo secret so CI-built debug APKs share one signing key and can be reinstalled over each other with `adb install -r`.
+- **`kotlin-diag-logging`** -- temporary `Log.e` diagnostics in `BaseServerService.kt` for live debugging a specific issue; independent of the two branches above.
+- **`fix/bridge-stale-server-state`** -- self-contained branch vendoring a `librakuyomi_server.so` (arm64-v8a) built from the `rakuyomi` fix for the stale-cookie-store-on-restart bug, so it can be built/sideloaded without running the Rust build pipeline.
+
 ## Deep Link Schemes
 
 - Compose app: `rakuyomi_bridge://start` / `rakuyomi_bridge://stop`
