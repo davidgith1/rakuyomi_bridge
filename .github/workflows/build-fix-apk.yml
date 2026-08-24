@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: davidgith1/rakuyomi
-          ref: worktree-fix-bridge-stale-server-state
+          ref: fix/cookie-store-reinit
           path: rakuyomi
 
       - name: Install Rust
